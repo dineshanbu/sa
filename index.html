@@ -1,235 +1,2713 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
-  />
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<link  rel="stylesheet" href="main.css">
-    <title>see.do</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Template Builder - Ultra Premium Edition</title>
     <style>
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --accent-color: #8b5cf6;
+            --border-color: #e5e7eb;
+            --bg-gray: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --hover-bg: #f3f4f6;
+            --selected-bg: #eef2ff;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            
+            /* Resume template variables */
+            --resume-font: 'Inter';
+            --heading-size: 18px;
+            --body-size: 14px;
+            --line-height: 1.6;
+            --letter-spacing: 0px;
+            --section-spacing: 20px;
+            --heading-weight: 700;
+            --body-weight: 400;
+            --resume-primary: #6366f1;
+            --resume-accent: #8b5cf6;
+            --resume-text: #1f2937;
+            --resume-muted: #6b7280;
+            --left-bg: #f8fafc;
+            --right-bg: #ffffff;
+            --divider-color: #e5e7eb;
+            --page-margin: 40px;
+            --column-gap: 0px;
+            --title-transform: uppercase;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Inter', sans-serif;
+            background: #ffffff;
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* ========== LEFT SIDEBAR ========== */
+        .left-sidebar {
+            width: 300px;
+            background: #ffffff;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+        }
+
+        .sidebar-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .section-library {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .section-item {
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            background: var(--bg-gray);
+            border-radius: 10px;
+            cursor: grab;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-item:hover {
+            background: var(--hover-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+            border-color: var(--primary-color);
+        }
+
+        .section-item:active {
+            cursor: grabbing;
+            transform: translateY(-1px);
+        }
+
+        .section-item.selected {
+            background: var(--selected-bg);
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        .section-item-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .section-item-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ========== CENTER CANVAS ========== */
+        .canvas-area {
+            flex: 1;
+            background: var(--bg-gray);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .canvas-toolbar {
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .toolbar-left, .toolbar-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .template-selector {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .template-selector:hover {
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            padding: 9px 18px;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--hover-bg);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+            color: white;
+            border: none;
+        }
+
+        .canvas-wrapper {
+            flex: 1;
+            overflow: auto;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* ========== RESUME CANVAS ========== */
+        .resume-canvas {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            position: relative;
+            font-family: var(--resume-font);
+            color: var(--resume-text);
+            transition: all 0.3s;
+            padding: var(--page-margin);
+        }
+
+        .resume-canvas.one-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resume-canvas.two-column {
+            display: flex;
+            flex-direction: row;
+            gap: var(--column-gap);
+        }
+
+        .resume-column {
+            position: relative;
+            min-height: 100px;
+            transition: all 0.3s;
+        }
+
+        .resume-column.left-column {
+            background: var(--left-bg);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .resume-column.right-column {
+            background: var(--right-bg);
+            flex: 1;
+            padding: 20px;
+        }
+
+        .column-resizer {
+            width: 8px;
+            cursor: col-resize;
+            background: transparent;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .column-resizer:hover {
+            background: var(--primary-color);
+        }
+
+        .column-resizer::before {
+            content: '⋮';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-secondary);
+            font-size: 20px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .column-resizer:hover::before {
+            opacity: 1;
+        }
+
+        .drop-zone {
+            min-height: 80px;
+            border: 2px dashed transparent;
+            transition: all 0.3s;
+            position: relative;
+            border-radius: 8px;
+        }
+
+        .drop-zone.drag-over {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .drop-zone.drag-over::before {
+            content: '↓ Drop section here';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 16px;
+            pointer-events: none;
+            z-index: 10;
+            animation: pulse 1s infinite;
+        }
+
+        .drop-indicator {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 0 8px var(--primary-color);
+        }
+
+        .drop-indicator.active {
+            opacity: 1;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .resume-section {
+            padding: var(--section-spacing);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .resume-section:hover:not(.preview-mode) {
+            background: rgba(99, 102, 241, 0.03);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        .resume-section.selected {
+            border-color: var(--primary-color);
+            background: var(--selected-bg);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .resume-section.dragging {
+            opacity: 0.5;
+            transform: scale(0.98);
+        }
+
+        .resume-section.collapsed .section-content {
+            display: none;
+        }
+
+        .resume-section.locked {
+            cursor: not-allowed;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .section-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .section-icon {
+            font-size: 20px;
+        }
+
+        .section-title {
+            font-size: var(--heading-size);
+            font-weight: var(--heading-weight);
+            color: var(--resume-primary);
+            text-transform: var(--title-transform);
+            letter-spacing: var(--letter-spacing);
+            line-height: var(--line-height);
+            flex: 1;
+        }
+
+        .section-controls {
+            display: none;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .resume-section:hover:not(.preview-mode) .section-controls {
+            display: flex;
+        }
+
+        .section-control-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .section-control-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .drag-handle {
+            cursor: grab;
+            color: var(--text-secondary);
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .section-divider {
+            height: 3px;
+            background: var(--divider-color);
+            margin-bottom: 14px;
+            border-radius: 2px;
+        }
+
+        .section-content {
+            font-size: var(--body-size);
+            line-height: var(--line-height);
+            color: var(--resume-text);
+            letter-spacing: var(--letter-spacing);
+            font-weight: var(--body-weight);
+        }
+
+        /* Drag Ghost */
+        .drag-ghost {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.8;
+            z-index: 1000;
+            transform: rotate(-2deg);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        /* ========== RIGHT SIDEBAR - SETTINGS ========== */
+        .right-sidebar {
+            width: 360px;
+            background: white;
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .settings-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+        }
+
+        .settings-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .settings-section {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .settings-section h3 {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 0.8px;
+        }
+
+        .setting-item {
+            margin-bottom: 20px;
+        }
+
+        .setting-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .setting-input, .setting-select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .setting-input:focus, .setting-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .setting-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--border-color);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .setting-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .setting-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        }
+
+        .setting-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: none;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: 0.3s;
+            border-radius: 28px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        input:checked + .toggle-slider {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .color-picker-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .color-preview {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .color-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .color-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-family: 'Courier New', monospace;
+        }
+
+        input[type="color"] {
+            position: absolute;
+            width: 0;
+            height: 0;
+            opacity: 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-state p {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* ========== STYLE PRESETS ========== */
+        .style-presets-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .style-preset-card {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.25s;
+            background: white;
+        }
+
+        .style-preset-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+        }
+
+        .style-preset-card.active {
+            border-color: var(--primary-color);
+            background: var(--selected-bg);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        .style-preset-thumbnail {
+            width: 100%;
+            height: 80px;
+            background: var(--bg-gray);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .style-preset-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .style-preset-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* ========== MODAL ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modal-close {
+            background: var(--hover-bg);
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 8px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--danger-color);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .json-output {
+            background: #1f2937;
+            color: #10b981;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 500px;
+            overflow: auto;
+            border: 2px solid var(--border-color);
+        }
+
+        .layout-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .layout-option {
+            padding: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            background: white;
+            font-weight: 600;
+        }
+
+        .layout-option:hover {
+            border-color: var(--primary-color);
+            background: var(--hover-bg);
+        }
+
+        .layout-option.active {
+            border-color: var(--primary-color);
+            background: var(--selected-bg);
+            color: var(--primary-color);
+        }
+
+        .slider-value {
+            display: inline-block;
+            margin-left: 8px;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+
+        /* ========== NOTIFICATION ========== */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1001;
+            animation: slideInRight 0.3s;
+        }
+
+        .notification.success {
+            background: var(--success-color);
+        }
+
+        .notification.error {
+            background: var(--danger-color);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ========== SAMPLE CONTENT STYLES ========== */
+        .profile-header {
+            text-align: center;
+            padding: 32px 24px;
+        }
+
+        .profile-name {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--resume-primary);
+        }
+
+        .profile-title {
+            font-size: 20px;
+            color: var(--resume-muted);
+            margin-bottom: 18px;
+            font-weight: 500;
+        }
+
+        .profile-contact {
+            font-size: 14px;
+            color: var(--resume-muted);
+            line-height: 1.8;
+        }
+
+        .experience-item, .education-item, .skill-item {
+            margin-bottom: 20px;
+        }
+
+        .item-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 6px;
+            color: var(--resume-text);
+        }
+
+        .item-subtitle {
+            color: var(--resume-muted);
+            font-size: 13px;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .item-description {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--resume-text);
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            padding: 8px 16px;
+            background: var(--resume-primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* ========== SCROLLBAR ========== */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-gray);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* ========== ICON PICKER ========== */
+        .icon-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .icon-option {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+
+        .icon-option:hover {
+            border-color: var(--primary-color);
+            background: var(--selected-bg);
+            transform: scale(1.1);
+        }
+
+        .icon-option.active {
+            border-color: var(--primary-color);
+            background: var(--selected-bg);
+        }
     </style>
 </head>
-
 <body>
-    <div class="container-fluid-md mt-0 pt-0">
-        <header>
-            <div class="shape "></div> <!-- Navbar -->
-            <nav class="navbar  navbar-expand-lg navbar-transparent" > <a class="navbar-brand" href="#"><img src="https://seo.do/assets/img/logo-icon.svg" >seo.do</a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="text-decoration: none;">login</a>
-                    </li>
-                   <div class="btn btn-primary">subilt</div>
-                </ul> 
-                
-            </nav> <!-- ./ end of navbar -->
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3 left-side"> <img src="https://i.imgur.com/jrRBTai.png" class="w-100"> </div>
-                    <div class="col-md-6 right-side mt-2">
-                        <h1>Data Science Meets SEO</h1>
-                        <p>Find all the SEO secrets of your competitors and track them daily without hours of boring keyword research & grouping</p>
-                        
-                        <div class="container">
-                            <div class="row height-100 d-flex justify-content-center align-items-center">
-                                <div class="col-md-8">
-                                    <div class="search position-relative"> <input class="form-control" placeholder="Enter Your Domain"> <button class="btn btn-primary position-absolute"><marquee>Start Instant Demo</marquee></button> </div>
-                                </div>
-                            </div>
-                        </div>
+    <div class="app-container">
+        <!-- Left Sidebar: Section Library -->
+        <div class="left-sidebar">
+            <div class="sidebar-header">
+                <h2>📋 Resume Sections</h2>
+                <p>Drag sections to canvas or click to add</p>
+            </div>
+            <div class="section-library" id="sectionLibrary"></div>
+        </div>
 
-                        <div class="text-center "><p>• No Credit Cards  • Ready to Use in Few Minutes
-                        </p></div>
+        <!-- Center: Canvas Area -->
+        <div class="canvas-area">
+            <div class="canvas-toolbar">
+                <div class="toolbar-left">
+                    <select class="template-selector" id="templateSelector">
+                        <option value="">Select Template...</option>
+                    </select>
+                    <button class="btn" id="newTemplateBtn">➕ New</button>
+                    <button class="btn" id="duplicateBtn">📋 Duplicate</button>
+                    <button class="btn" id="stylePickerBtn">🎨 Styles</button>
+                    <button class="btn" id="previewBtn">👁️ Preview</button>
+                </div>
+                <div class="toolbar-right">
+                    <button class="btn" id="undoBtn" disabled>↶ Undo</button>
+                    <button class="btn" id="redoBtn" disabled>↷ Redo</button>
+                    <button class="btn" id="clearBtn">🗑️ Clear</button>
+                    <button class="btn btn-primary" id="saveBtn">💾 Save Template</button>
+                </div>
+            </div>
+            <div class="canvas-wrapper" id="canvasWrapper">
+                <div class="resume-canvas two-column" id="resumeCanvas"></div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar: Settings -->
+        <div class="right-sidebar">
+            <div class="settings-header">
+                <h2>⚙️ Settings</h2>
+            </div>
+            <div id="settingsContent"></div>
+        </div>
+    </div>
+
+    <!-- Style Picker Modal -->
+    <div class="modal" id="stylePickerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🎨 Choose Resume Style</h2>
+                <button class="modal-close" onclick="closeStylePicker()">×</button>
+            </div>
+            <div class="style-presets-grid" id="stylePresetsGrid"></div>
+        </div>
+    </div>
+
+    <!-- Save Template Modal -->
+    <div class="modal" id="saveModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>💾 Save Template</h2>
+                <button class="modal-close" onclick="closeSaveModal()">×</button>
+            </div>
+            <div class="setting-item">
+                <label class="setting-label">Template Name</label>
+                <input type="text" class="setting-input" id="templateName" placeholder="Enter template name...">
+            </div>
+            <div class="json-output" id="jsonOutput"></div>
+            <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: flex-end;">
+                <button class="btn" onclick="closeSaveModal()">Cancel</button>
+                <button class="btn" onclick="copyJSON()">📋 Copy JSON</button>
+                <button class="btn btn-primary" onclick="saveTemplateToStorage()">💾 Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== AVAILABLE SECTIONS ==========
+        const availableSections = [
+            { id: 'profile', name: 'Profile / Header', icon: '👤' },
+            { id: 'education', name: 'Education', icon: '🎓' },
+            { id: 'experience', name: 'Professional Experience', icon: '💼' },
+            { id: 'skills', name: 'Skills', icon: '⚡' },
+            { id: 'languages', name: 'Languages', icon: '🌐' },
+            { id: 'certificates', name: 'Certificates', icon: '📜' },
+            { id: 'projects', name: 'Projects', icon: '🚀' },
+            { id: 'courses', name: 'Courses', icon: '📚' },
+            { id: 'awards', name: 'Awards', icon: '🏆' },
+            { id: 'organisations', name: 'Organisations', icon: '🏛️' },
+            { id: 'publications', name: 'Publications', icon: '📄' },
+            { id: 'references', name: 'References', icon: '✉️' },
+            { id: 'declaration', name: 'Declaration', icon: '✍️' },
+            { id: 'activities', name: 'Activities', icon: '🎯' },
+            { id: 'custom', name: 'Custom Section', icon: '➕' }
+        ];
+
+        // ========== PREMIUM STYLE PRESETS ==========
+        const stylePresets = [
+            {
+                id: 'classic-professional',
+                name: 'Classic Professional',
+                icon: '📄',
+                description: 'Serif font, centered header, conservative',
+                styles: {
+                    fontFamily: 'Georgia',
+                    primaryColor: '#2c3e50',
+                    accentColor: '#34495e',
+                    textColor: '#2c3e50',
+                    mutedColor: '#7f8c8d',
+                    headingSize: 20,
+                    bodySize: 13,
+                    lineHeight: 1.7,
+                    letterSpacing: 0.3,
+                    headingWeight: 700,
+                    bodyWeight: 400,
+                    sectionSpacing: 24,
+                    leftColumnBg: '#ffffff',
+                    rightColumnBg: '#ffffff',
+                    dividerColor: '#bdc3c7',
+                    pageMargin: 50,
+                    columnGap: 30,
+                    titleTransform: 'uppercase'
+                }
+            },
+            {
+                id: 'modern-minimal',
+                name: 'Modern Minimal',
+                icon: '✨',
+                description: 'Sans-serif, two column, bold headers',
+                styles: {
+                    fontFamily: 'Arial',
+                    primaryColor: '#000000',
+                    accentColor: '#3498db',
+                    textColor: '#2c3e50',
+                    mutedColor: '#95a5a6',
+                    headingSize: 22,
+                    bodySize: 14,
+                    lineHeight: 1.6,
+                    letterSpacing: 0,
+                    headingWeight: 800,
+                    bodyWeight: 400,
+                    sectionSpacing: 20,
+                    leftColumnBg: '#ffffff',
+                    rightColumnBg: '#ffffff',
+                    dividerColor: '#000000',
+                    pageMargin: 40,
+                    columnGap: 25,
+                    titleTransform: 'uppercase'
+                }
+            },
+            {
+                id: 'creative-designer',
+                name: 'Creative Designer',
+                icon: '🎨',
+                description: 'Accent colors, icons, colored sidebar',
+                styles: {
+                    fontFamily: 'Helvetica',
+                    primaryColor: '#e74c3c',
+                    accentColor: '#c0392b',
+                    textColor: '#2c3e50',
+                    mutedColor: '#7f8c8d',
+                    headingSize: 19,
+                    bodySize: 13,
+                    lineHeight: 1.65,
+                    letterSpacing: 0.2,
+                    headingWeight: 700,
+                    bodyWeight: 400,
+                    sectionSpacing: 22,
+                    leftColumnBg: '#fef5f5',
+                    rightColumnBg: '#ffffff',
+                    dividerColor: '#e74c3c',
+                    pageMargin: 35,
+                    columnGap: 20,
+                    titleTransform: 'capitalize'
+                }
+            },
+            {
+                id: 'executive-premium',
+                name: 'Executive Premium',
+                icon: '💼',
+                description: 'Dark header, gold accents, strong hierarchy',
+                styles: {
+                    fontFamily: 'Times New Roman',
+                    primaryColor: '#1a1a2e',
+                    accentColor: '#d4af37',
+                    textColor: '#1a1a2e',
+                    mutedColor: '#6c757d',
+                    headingSize: 21,
+                    bodySize: 14,
+                    lineHeight: 1.75,
+                    letterSpacing: 0.5,
+                    headingWeight: 700,
+                    bodyWeight: 400,
+                    sectionSpacing: 28,
+                    leftColumnBg: '#f8f9fa',
+                    rightColumnBg: '#ffffff',
+                    dividerColor: '#d4af37',
+                    pageMargin: 45,
+                    columnGap: 35,
+                    titleTransform: 'uppercase'
+                }
+            },
+            {
+                id: 'compact-one-page',
+                name: 'Compact One-Page',
+                icon: '📑',
+                description: 'Small font, tight spacing, ATS friendly',
+                styles: {
+                    fontFamily: 'Arial',
+                    primaryColor: '#333333',
+                    accentColor: '#555555',
+                    textColor: '#333333',
+                    mutedColor: '#666666',
+                    headingSize: 16,
+                    bodySize: 11,
+                    lineHeight: 1.5,
+                    letterSpacing: 0,
+                    headingWeight: 700,
+                    bodyWeight: 400,
+                    sectionSpacing: 14,
+                    leftColumnBg: '#ffffff',
+                    rightColumnBg: '#ffffff',
+                    dividerColor: '#cccccc',
+                    pageMargin: 25,
+                    columnGap: 15,
+                    titleTransform: 'uppercase'
+                }
+            },
+            {
+                id: 'tech-startup',
+                name: 'Tech / Startup',
+                icon: '🚀',
+                description: 'Clean grid, code fonts, minimal colors',
+                styles: {
+                    fontFamily: 'Verdana',
+                    primaryColor: '#6366f1',
+                    accentColor: '#8b5cf6',
+                    textColor: '#1f2937',
+                    mutedColor: '#6b7280',
+                    headingSize: 18,
+                    bodySize: 13,
+                    lineHeight: 1.6,
+                    letterSpacing: 0,
+                    headingWeight: 600,
+                    bodyWeight: 400,
+                    sectionSpacing: 18,
+                    leftColumnBg: '#f9fafb',
+                    rightColumnBg: '#ffffff',
+                    dividerColor: '#e5e7eb',
+                    pageMargin: 35,
+                    columnGap: 20,
+                    titleTransform: 'capitalize'
+                }
+            }
+        ];
+
+        // ========== AVAILABLE ICONS ==========
+        const availableIcons = ['👤', '💼', '🎓', '⚡', '🌐', '📜', '🚀', '📚', '🏆', '🏛️', '📄', '✉️', '✍️', '🎯', '💡', '🎨', '📱', '💻', '🔧', '📊'];
+
+        // ========== SAMPLE CONTENT ==========
+        const sampleContent = {
+            profile: `<div class="profile-header">
+                <div class="profile-name">Alexandra Johnson</div>
+                <div class="profile-title">Senior Product Designer</div>
+                <div class="profile-contact">alexandra.johnson@email.com | +1 (555) 123-4567 | San Francisco, CA</div>
+            </div>`,
+            education: `<div class="education-item">
+                <div class="item-title">Master of Design</div>
+                <div class="item-subtitle">Stanford University • 2018-2020</div>
+                <div class="item-description">GPA: 3.9/4.0 • Focus: UX/UI Design & Human-Computer Interaction</div>
+            </div>
+            <div class="education-item">
+                <div class="item-title">Bachelor of Fine Arts</div>
+                <div class="item-subtitle">Rhode Island School of Design • 2014-2018</div>
+                <div class="item-description">Graduated with Honors • Dean's List 2016-2018</div>
+            </div>`,
+            experience: `<div class="experience-item">
+                <div class="item-title">Senior Product Designer</div>
+                <div class="item-subtitle">Tech Innovators Inc. • 2021-Present</div>
+                <div class="item-description">Led design initiatives for SaaS platform serving 100K+ users. Improved user engagement by 45% through data-driven design decisions. Collaborated with cross-functional teams to ship 20+ major features.</div>
+            </div>
+            <div class="experience-item">
+                <div class="item-title">Product Designer</div>
+                <div class="item-subtitle">StartupCo • 2020-2021</div>
+                <div class="item-description">Designed mobile and web experiences from concept to launch. Created design systems that reduced development time by 30%.</div>
+            </div>`,
+            skills: `<div class="skill-list">
+                <span class="skill-tag">Figma</span>
+                <span class="skill-tag">Adobe XD</span>
+                <span class="skill-tag">Sketch</span>
+                <span class="skill-tag">Prototyping</span>
+                <span class="skill-tag">User Research</span>
+                <span class="skill-tag">Design Systems</span>
+                <span class="skill-tag">HTML/CSS</span>
+                <span class="skill-tag">JavaScript</span>
+            </div>`,
+            languages: `<div class="item-description">
+                <strong>English:</strong> Native<br>
+                <strong>Spanish:</strong> Fluent (C1)<br>
+                <strong>French:</strong> Intermediate (B1)
+            </div>`,
+            certificates: `<div class="experience-item">
+                <div class="item-title">Google UX Design Professional Certificate</div>
+                <div class="item-subtitle">Coursera • 2023</div>
+            </div>
+            <div class="experience-item">
+                <div class="item-title">Interaction Design Foundation</div>
+                <div class="item-subtitle">UX Design Master Class • 2022</div>
+            </div>`,
+            projects: `<div class="experience-item">
+                <div class="item-title">E-Commerce Redesign</div>
+                <div class="item-subtitle">Personal Project • 2023</div>
+                <div class="item-description">Complete redesign of e-commerce platform focusing on mobile-first approach. Achieved 60% increase in mobile conversions through improved UX.</div>
+            </div>
+            <div class="experience-item">
+                <div class="item-title">Design System Library</div>
+                <div class="item-subtitle">Open Source • 2022</div>
+                <div class="item-description">Created comprehensive design system with 100+ components. Used by 5000+ designers worldwide.</div>
+            </div>`,
+            courses: `<div class="experience-item">
+                <div class="item-title">Advanced UI Animation</div>
+                <div class="item-subtitle">School of Motion • 2023</div>
+            </div>
+            <div class="experience-item">
+                <div class="item-title">Data-Driven Design</div>
+                <div class="item-subtitle">Udemy • 2022</div>
+            </div>`,
+            awards: `<div class="experience-item">
+                <div class="item-title">Designer of the Year</div>
+                <div class="item-subtitle">Tech Innovators Inc. • 2023</div>
+            </div>
+            <div class="experience-item">
+                <div class="item-title">Best Mobile Design</div>
+                <div class="item-subtitle">Design Awards • 2022</div>
+            </div>`,
+            organisations: `<div class="experience-item">
+                <div class="item-title">IXDA - Interaction Design Association</div>
+                <div class="item-subtitle">Member • 2020-Present</div>
+            </div>
+            <div class="experience-item">
+                <div class="item-title">Women in Design</div>
+                <div class="item-subtitle">Community Leader • 2021-Present</div>
+            </div>`,
+            publications: `<div class="experience-item">
+                <div class="item-title">The Future of Design Systems</div>
+                <div class="item-subtitle">UX Magazine • 2023</div>
+            </div>
+            <div class="experience-item">
+                <div class="item-title">Mobile-First Design Principles</div>
+                <div class="item-subtitle">Medium • 2022 • 10K+ views</div>
+            </div>`,
+            references: `<div class="item-description">Available upon request</div>`,
+            declaration: `<div class="item-description">I hereby declare that all the information provided above is true and correct to the best of my knowledge and belief.</div>`,
+            activities: `<div class="item-description">Design mentorship • Public speaking at design conferences • Contributing to open-source design tools • Photography • Marathon running</div>`,
+            custom: `<div class="item-description">Add your custom content here. This section can be used for any additional information you want to include in your resume.</div>`
+        };
+
+        // ========== STATE MANAGEMENT ==========
+        let templates = [];
+        let currentTemplateIndex = -1;
+        let sectionCounter = 0;
+        let historyStack = [];
+        let historyIndex = -1;
+        let maxHistorySize = 50;
+
+        let templateState = {
+            id: generateId(),
+            name: 'Untitled Template',
+            layout: 'two-column',
+            columns: {
+                left: [],
+                right: []
+            },
+            columnWidths: {
+                left: 35,
+                right: 65
+            },
+            styles: {
+                fontFamily: 'Inter',
+                primaryColor: '#6366f1',
+                accentColor: '#8b5cf6',
+                textColor: '#1f2937',
+                mutedColor: '#6b7280',
+                headingSize: 18,
+                bodySize: 14,
+                lineHeight: 1.6,
+                letterSpacing: 0,
+                headingWeight: 700,
+                bodyWeight: 400,
+                sectionSpacing: 20,
+                leftColumnBg: '#f8fafc',
+                rightColumnBg: '#ffffff',
+                dividerColor: '#e5e7eb',
+                pageMargin: 40,
+                columnGap: 0,
+                titleTransform: 'uppercase'
+            },
+            sections: {},
+            selectedSection: null,
+            previewMode: false
+        };
+
+        // Drag & Drop state
+        let draggedSection = null;
+        let draggedFromColumn = null;
+        let dragGhost = null;
+        let dropIndicator = null;
+        let isResizingColumn = false;
+        let resizeStartX = 0;
+        let resizeStartWidth = 0;
+
+        // ========== UTILITY FUNCTIONS ==========
+        function generateId() {
+            return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.3s reverse';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // ========== HISTORY MANAGEMENT (UNDO/REDO) ==========
+        function saveToHistory() {
+            const state = JSON.parse(JSON.stringify(templateState));
+            
+            // Remove future states if we're not at the end
+            if (historyIndex < historyStack.length - 1) {
+                historyStack = historyStack.slice(0, historyIndex + 1);
+            }
+            
+            historyStack.push(state);
+            
+            // Limit history size
+            if (historyStack.length > maxHistorySize) {
+                historyStack.shift();
+            } else {
+                historyIndex++;
+            }
+            
+            updateUndoRedoButtons();
+        }
+
+        function undo() {
+            if (historyIndex > 0) {
+                historyIndex--;
+                templateState = JSON.parse(JSON.stringify(historyStack[historyIndex]));
+                renderCanvas();
+                renderSettings();
+                updateUndoRedoButtons();
+                showNotification('Undo successful', 'success');
+            }
+        }
+
+        function redo() {
+            if (historyIndex < historyStack.length - 1) {
+                historyIndex++;
+                templateState = JSON.parse(JSON.stringify(historyStack[historyIndex]));
+                renderCanvas();
+                renderSettings();
+                updateUndoRedoButtons();
+                showNotification('Redo successful', 'success');
+            }
+        }
+
+        function updateUndoRedoButtons() {
+            document.getElementById('undoBtn').disabled = historyIndex <= 0;
+            document.getElementById('redoBtn').disabled = historyIndex >= historyStack.length - 1;
+        }
+
+        // ========== TEMPLATE MANAGEMENT ==========
+        function loadTemplatesFromStorage() {
+            const saved = localStorage.getItem('resumeTemplates');
+            if (saved) {
+                try {
+                    templates = JSON.parse(saved);
+                } catch (e) {
+                    console.error('Failed to load templates:', e);
+                    templates = [];
+                }
+            }
+        }
+
+        function saveTemplatesToStorage() {
+            try {
+                localStorage.setItem('resumeTemplates', JSON.stringify(templates));
+            } catch (e) {
+                console.error('Failed to save templates:', e);
+                showNotification('Failed to save to storage', 'error');
+            }
+        }
+
+        function createNewTemplate() {
+            templateState = {
+                id: generateId(),
+                name: 'Template ' + (templates.length + 1),
+                layout: 'two-column',
+                columns: { left: [], right: [] },
+                columnWidths: { left: 35, right: 65 },
+                styles: {
+                    fontFamily: 'Inter',
+                    primaryColor: '#6366f1',
+                    accentColor: '#8b5cf6',
+                    textColor: '#1f2937',
+                    mutedColor: '#6b7280',
+                    headingSize: 18,
+                    bodySize: 14,
+                    lineHeight: 1.6,
+                    letterSpacing: 0,
+                    headingWeight: 700,
+                    bodyWeight: 400,
+                    sectionSpacing: 20,
+                    leftColumnBg: '#f8fafc',
+                    rightColumnBg: '#ffffff',
+                    dividerColor: '#e5e7eb',
+                    pageMargin: 40,
+                    columnGap: 0,
+                    titleTransform: 'uppercase'
+                },
+                sections: {},
+                selectedSection: null,
+                previewMode: false
+            };
+            currentTemplateIndex = -1;
+            historyStack = [];
+            historyIndex = -1;
+            saveToHistory();
+            renderCanvas();
+            renderSettings();
+            showNotification('New template created', 'success');
+        }
+
+        function duplicateCurrentTemplate() {
+            const duplicate = JSON.parse(JSON.stringify(templateState));
+            duplicate.id = generateId();
+            duplicate.name = templateState.name + ' (Copy)';
+            
+            templates.push(duplicate);
+            currentTemplateIndex = templates.length - 1;
+            templateState = duplicate;
+            
+            saveTemplatesToStorage();
+            renderTemplateSelector();
+            saveToHistory();
+            showNotification('Template duplicated', 'success');
+        }
+
+        function switchTemplate(index) {
+            if (index >= 0 && index < templates.length) {
+                currentTemplateIndex = index;
+                templateState = JSON.parse(JSON.stringify(templates[index]));
+                historyStack = [];
+                historyIndex = -1;
+                saveToHistory();
+                renderCanvas();
+                renderSettings();
+                showNotification(`Switched to: ${templateState.name}`, 'success');
+            }
+        }
+
+        // ========== STYLE PRESET FUNCTIONS ==========
+        function applyStylePreset(presetId) {
+            const preset = stylePresets.find(p => p.id === presetId);
+            if (!preset) return;
+            
+            templateState.styles = { ...preset.styles };
+            saveToHistory();
+            renderCanvas();
+            renderSettings();
+            closeStylePicker();
+            showNotification(`Style "${preset.name}" applied!`, 'success');
+        }
+
+        function openStylePicker() {
+            const modal = document.getElementById('stylePickerModal');
+            const grid = document.getElementById('stylePresetsGrid');
+            
+            grid.innerHTML = stylePresets.map(preset => `
+                <div class="style-preset-card" onclick="applyStylePreset('${preset.id}')">
+                    <div class="style-preset-thumbnail">
+                        ${preset.icon}
+                    </div>
+                    <div class="style-preset-name">${preset.name}</div>
+                </div>
+            `).join('');
+            
+            modal.classList.add('active');
+        }
+
+        function closeStylePicker() {
+            document.getElementById('stylePickerModal').classList.remove('active');
+        }
+
+        // ========== RENDER FUNCTIONS ==========
+        function renderSectionLibrary() {
+            const library = document.getElementById('sectionLibrary');
+            library.innerHTML = availableSections.map(section => `
+                <div class="section-item" draggable="true" data-section-type="${section.id}">
+                    <div class="section-item-icon">${section.icon}</div>
+                    <div class="section-item-text">${section.name}</div>
+                </div>
+            `).join('');
+
+            library.querySelectorAll('.section-item').forEach(item => {
+                item.addEventListener('dragstart', handleLibraryDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+                item.addEventListener('click', handleLibraryClick);
+            });
+        }
+
+        function renderCanvas() {
+            const canvas = document.getElementById('resumeCanvas');
+            canvas.className = `resume-canvas ${templateState.layout}`;
+            
+            applyStyles();
+
+            if (templateState.layout === 'one-column') {
+                canvas.innerHTML = `
+                    <div class="resume-column" data-column="main">
+                        ${renderColumn('main')}
+                    </div>
+                `;
+            } else {
+                const leftWidth = templateState.columnWidths.left;
+                const rightWidth = templateState.columnWidths.right;
+                
+                canvas.innerHTML = `
+                    <div class="resume-column left-column" data-column="left" style="width: ${leftWidth}%">
+                        ${renderColumn('left')}
+                    </div>
+                    ${!templateState.previewMode ? '<div class="column-resizer" id="columnResizer"></div>' : ''}
+                    <div class="resume-column right-column" data-column="right" style="width: ${rightWidth}%">
+                        ${renderColumn('right')}
+                    </div>
+                `;
+                
+                if (!templateState.previewMode) {
+                    const resizer = document.getElementById('columnResizer');
+                    resizer.addEventListener('mousedown', handleResizerMouseDown);
+                }
+            }
+
+            attachCanvasEventListeners();
+            setupAutoScroll();
+        }
+
+        function renderColumn(columnName) {
+            const column = templateState.layout === 'one-column' ? 
+                [...templateState.columns.left, ...templateState.columns.right] :
+                templateState.columns[columnName] || [];
+
+            if (column.length === 0) {
+                return `<div class="drop-zone" data-column="${columnName}">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>${templateState.previewMode ? 'No sections' : 'Drag or click sections here'}</p>
+                    </div>
+                </div>`;
+            }
+
+            return `<div class="drop-zone" data-column="${columnName}">
+                ${column.map(sectionId => renderSection(sectionId)).join('')}
+            </div>`;
+        }
+
+        function renderSection(sectionId) {
+            const section = templateState.sections[sectionId];
+            if (!section || !section.enabled) return '';
+
+            const isSelected = templateState.selectedSection === sectionId;
+            const isDragging = draggedSection === sectionId;
+            const previewClass = templateState.previewMode ? 'preview-mode' : '';
+            const collapsedClass = section.collapsed ? 'collapsed' : '';
+            const lockedClass = section.locked ? 'locked' : '';
+
+            return `
+                <div class="resume-section ${isSelected ? 'selected' : ''} ${isDragging ? 'dragging' : ''} ${previewClass} ${collapsedClass} ${lockedClass}" 
+                     data-section-id="${sectionId}"
+                     draggable="${!templateState.previewMode && !section.locked}"
+                     style="padding: ${section.paddingTop || templateState.styles.sectionSpacing}px ${templateState.styles.sectionSpacing}px ${section.paddingBottom || templateState.styles.sectionSpacing}px; background: ${section.bgColor || 'transparent'}">
+                    <div class="section-header">
+                        <div class="section-title-wrapper">
+                            ${section.showIcon ? `<span class="section-icon">${section.icon || '📄'}</span>` : ''}
+                            ${section.hideTitle ? '' : `<div class="section-title">${section.title}</div>`}
+                        </div>
+                        <div class="section-controls">
+                            <button class="section-control-btn drag-handle" title="Drag to move">⋮⋮</button>
+                            <button class="section-control-btn" onclick="toggleSectionCollapse('${sectionId}')" title="Collapse/Expand">
+                                ${section.collapsed ? '▼' : '▲'}
+                            </button>
+                            <button class="section-control-btn" onclick="toggleSectionLock('${sectionId}')" title="Lock/Unlock">
+                                ${section.locked ? '🔒' : '🔓'}
+                            </button>
+                            <button class="section-control-btn" onclick="duplicateSection('${sectionId}')" title="Duplicate">📋</button>
+                        </div>
+                    </div>
+                    ${section.showDivider && !section.hideTitle ? '<div class="section-divider"></div>' : ''}
+                    <div class="section-content">
+                        ${sampleContent[section.type] || '<p>Content goes here...</p>'}
                     </div>
                 </div>
-            </div>
-        </header>
-    </div>
-<!-- -------------------s2 -->
-    <div class="section2">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center mt-5">
-                     <h2 style="font-weight: bold; font-size: 32px; font-family: sans-serif; color: purple;" > Features</h2>
+            `;
+        }
 
-                     <p style="color: black; font-size: 18px; font-family: sans-serif; " >You found us! Why spend your valuable hours to understand yet another rank tracker?</p>
-                     
-                </div>
-            </div>
-        </div>
-    </div>
-
-<!-- --------------card -->
-
-<div class="container-fluid mt-5">
-    <div class="row">
-      <div class="col-md-3">
-        <div class="card card-1">
-          <h3>AI-Based
-            Keyword Discovery</h3>
-          <p>We have trained our models by using the power of deep learning to find the most relevant keywords. </p>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card card-2">
-          <h3>Fully-Automated
-            Keyword Discovery</h3>
-          <p>You don't need to group keywords. Our smart algorithms are classifying keywords by their categories..</p>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card card-3">
-          <h3>Faster Than
-            The Fastest Competitor</h3>
-          <p>Performance is our core value. We have tired of years of experience on slow rank trackers..</p>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card card-3">
-          <h3>Free Migration
-            from 40+ Tools
-            </h3>
-          <p>Losing data is not acceptable. Eventhough it has API access or not, we will migrate your data..</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<!-- ----------------card2 -->
-<div class=" cart2">
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Trusted  by the  World's Best Companies</h2>
-        </div>
-        <div class="col-md-3 text-right">
-            <div class="card card-3">
-                <h4>PEPSICO
-                  </h4>            
-              </div>
-        </div>
-        <div class="col-md-3 text-right">
-            <div class="card card-3">
-                <h4>Red Bull
-                  </h4>
-               
-              </div>
-        </div>
-        <div class="col-md-2 text-right">
-            <div class="card card-3">
-                <h4>Weber
-                  </h4>
-               
-              </div>
-        </div>
-
-
-
-
-
-
-
-
-        <div class="col-md-4 mt-3">
+        function applyStyles() {
+            const s = templateState.styles;
+            const root = document.documentElement;
             
-        </div>
-        <div class="col-md-3 text-right ">
-            <div class="card card-3">
-                <h4>BEKO
-                  </h4>            
-              </div>
-        </div>
-        <div class="col-md-3 text-right ">
-            <div class="card card-3">
-                <h4>Grand Vision
-                  </h4>
-               
-              </div>
-        </div>
-        <div class="col-md-2 text-right ">
-            <div class="card card-3">
-                <h4>Yves
-                  </h4>
-               
-              </div>
-        </div>
-    </div>
-    
-</div>
-</div>
+            root.style.setProperty('--resume-font', s.fontFamily);
+            root.style.setProperty('--resume-primary', s.primaryColor);
+            root.style.setProperty('--resume-accent', s.accentColor || s.primaryColor);
+            root.style.setProperty('--heading-size', s.headingSize + 'px');
+            root.style.setProperty('--body-size', s.bodySize + 'px');
+            root.style.setProperty('--line-height', s.lineHeight);
+            root.style.setProperty('--letter-spacing', s.letterSpacing + 'px');
+            root.style.setProperty('--heading-weight', s.headingWeight);
+            root.style.setProperty('--body-weight', s.bodyWeight);
+            root.style.setProperty('--section-spacing', s.sectionSpacing + 'px');
+            root.style.setProperty('--resume-text', s.textColor);
+            root.style.setProperty('--resume-muted', s.mutedColor);
+            root.style.setProperty('--left-bg', s.leftColumnBg);
+            root.style.setProperty('--right-bg', s.rightColumnBg);
+            root.style.setProperty('--divider-color', s.dividerColor);
+            root.style.setProperty('--page-margin', s.pageMargin + 'px');
+            root.style.setProperty('--column-gap', s.columnGap + 'px');
+            root.style.setProperty('--title-transform', s.titleTransform);
+        }
 
+        function renderSettings() {
+            const content = document.getElementById('settingsContent');
+            content.innerHTML = templateState.selectedSection ? 
+                renderSectionSettings() : renderGlobalSettings();
+        }
 
+        function renderGlobalSettings() {
+            const s = templateState.styles;
+            const cw = templateState.columnWidths;
 
-<!-- ---------------banner -->
-
-<div class="jumbotron jumbotron-fluid text-center mt-5">
-    <div class="container">
-        <h1 class="display-4">Bigger Data = Better Trained Models</h1>
-        <p class="lead">We have great competitors that can provide you with data. Our main focus is not only providing data but also insights extracted from them. To create better machine learning models, we're collecting more data.</p>
-        <hr class="my-4">
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-5 ">
-        <div class="card" style="width: 18rem;">
-           
-            <div class="card-body">
-                <h3 class="card-title">KeyWord</h3>
-                
-                <h1 class="card-text">4.598.319.973</h1>
-               <i class="fa fa-database" aria-hidden="true"> 87 Countries</i>
-               <i class="fa fa-desktop" aria-hidden="true"> 37 Language</i>
-            </div>
-        </div></div>
-
-        <div class="col-md-4 ">
-            <div class="card" style="width: 18rem;">
-               
-                <div class="card-body">
-                    <h3 class="card-title">Search</h3>
-                    
-                    <h1 class="card-text">247,3 Billion Key</h1>
-                    <i class="fa fa-database" aria-hidden="true"> 4+ Billion </i>
-                    <i class="fa fa-desktop" aria-hidden="true"> 34 TB Data</i>
+            return `
+                <div class="settings-section">
+                    <h3>📐 Layout</h3>
+                    <div class="layout-toggle">
+                        <div class="layout-option ${templateState.layout === 'one-column' ? 'active' : ''}" 
+                             onclick="changeLayout('one-column')">
+                            One Column
+                        </div>
+                        <div class="layout-option ${templateState.layout === 'two-column' ? 'active' : ''}" 
+                             onclick="changeLayout('two-column')">
+                            Two Column
+                        </div>
+                    </div>
+                    ${templateState.layout === 'two-column' ? `
+                        <div class="setting-item">
+                            <label class="setting-label">
+                                Left Column Width <span class="slider-value">${cw.left}%</span>
+                            </label>
+                            <input type="range" class="setting-slider" min="20" max="60" value="${cw.left}" 
+                                   oninput="updateColumnWidth('left', this.value)">
+                        </div>
+                    ` : ''}
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            Page Margin <span class="slider-value">${s.pageMargin}px</span>
+                        </label>
+                        <input type="range" class="setting-slider" min="20" max="80" value="${s.pageMargin}" 
+                               oninput="updateStyle('pageMargin', this.value)">
+                    </div>
+                    ${templateState.layout === 'two-column' ? `
+                        <div class="setting-item">
+                            <label class="setting-label">
+                                Column Gap <span class="slider-value">${s.columnGap}px</span>
+                            </label>
+                            <input type="range" class="setting-slider" min="0" max="50" value="${s.columnGap}" 
+                                   oninput="updateStyle('columnGap', this.value)">
+                        </div>
+                    ` : ''}
                 </div>
-            </div></div>
-    </div>
-    </div>
-</div>
 
+                <div class="settings-section">
+                    <h3>✍️ Typography</h3>
+                    <div class="setting-item">
+                        <label class="setting-label">Font Family</label>
+                        <select class="setting-select" onchange="updateStyle('fontFamily', this.value)">
+                            <option value="Inter" ${s.fontFamily === 'Inter' ? 'selected' : ''}>Inter</option>
+                            <option value="Arial" ${s.fontFamily === 'Arial' ? 'selected' : ''}>Arial</option>
+                            <option value="Georgia" ${s.fontFamily === 'Georgia' ? 'selected' : ''}>Georgia</option>
+                            <option value="Times New Roman" ${s.fontFamily === 'Times New Roman' ? 'selected' : ''}>Times New Roman</option>
+                            <option value="Courier New" ${s.fontFamily === 'Courier New' ? 'selected' : ''}>Courier New</option>
+                            <option value="Helvetica" ${s.fontFamily === 'Helvetica' ? 'selected' : ''}>Helvetica</option>
+                            <option value="Verdana" ${s.fontFamily === 'Verdana' ? 'selected' : ''}>Verdana</option>
+                            <option value="Trebuchet MS" ${s.fontFamily === 'Trebuchet MS' ? 'selected' : ''}>Trebuchet MS</option>
+                            <option value="Palatino" ${s.fontFamily === 'Palatino' ? 'selected' : ''}>Palatino</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            Heading Size <span class="slider-value">${s.headingSize}px</span>
+                        </label>
+                        <input type="range" class="setting-slider" min="12" max="32" value="${s.headingSize}" 
+                               oninput="updateStyle('headingSize', this.value)">
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            Body Size <span class="slider-value">${s.bodySize}px</span>
+                        </label>
+                        <input type="range" class="setting-slider" min="10" max="20" value="${s.bodySize}" 
+                               oninput="updateStyle('bodySize', this.value)">
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            Heading Weight <span class="slider-value">${s.headingWeight}</span>
+                        </label>
+                        <input type="range" class="setting-slider" min="400" max="900" step="100" value="${s.headingWeight}" 
+                               oninput="updateStyle('headingWeight', this.value)">
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            Body Weight <span class="slider-value">${s.bodyWeight}</span>
+                        </label>
+                        <input type="range" class="setting-slider" min="300" max="700" step="100" value="${s.bodyWeight}" 
+                               oninput="updateStyle('bodyWeight', this.value)">
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            Line Height <span class="slider-value">${s.lineHeight}</span>
+                        </label>
+                        <input type="range" class="setting-slider" min="1" max="2.5" step="0.1" value="${s.lineHeight}" 
+                               oninput="updateStyle('lineHeight', this.value)">
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            Letter Spacing <span class="slider-value">${s.letterSpacing}px</span>
+                        </label>
+                        <input type="range" class="setting-slider" min="-2" max="5" step="0.5" value="${s.letterSpacing}" 
+                               oninput="updateStyle('letterSpacing', this.value)">
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">Title Transform</label>
+                        <select class="setting-select" onchange="updateStyle('titleTransform', this.value)">
+                            <option value="uppercase" ${s.titleTransform === 'uppercase' ? 'selected' : ''}>UPPERCASE</option>
+                            <option value="capitalize" ${s.titleTransform === 'capitalize' ? 'selected' : ''}>Capitalize</option>
+                            <option value="lowercase" ${s.titleTransform === 'lowercase' ? 'selected' : ''}>lowercase</option>
+                            <option value="none" ${s.titleTransform === 'none' ? 'selected' : ''}>Normal</option>
+                        </select>
+                    </div>
+                </div>
 
+                <div class="settings-section">
+                    <h3>🎨 Colors</h3>
+                    ${renderColorPicker('Primary Color', 'primaryColor', s.primaryColor)}
+                    ${renderColorPicker('Accent Color', 'accentColor', s.accentColor)}
+                    ${renderColorPicker('Text Color', 'textColor', s.textColor)}
+                    ${renderColorPicker('Muted Text', 'mutedColor', s.mutedColor)}
+                    ${renderColorPicker('Left Column BG', 'leftColumnBg', s.leftColumnBg)}
+                    ${renderColorPicker('Right Column BG', 'rightColumnBg', s.rightColumnBg)}
+                    ${renderColorPicker('Divider Color', 'dividerColor', s.dividerColor)}
+                </div>
 
+                <div class="settings-section">
+                    <h3>📏 Spacing</h3>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            Section Spacing <span class="slider-value">${s.sectionSpacing}px</span>
+                        </label>
+                        <input type="range" class="setting-slider" min="8" max="50" value="${s.sectionSpacing}" 
+                               oninput="updateStyle('sectionSpacing', this.value)">
+                    </div>
+                </div>
+            `;
+        }
 
+        function renderColorPicker(label, property, value) {
+            const id = 'color_' + property;
+            return `
+                <div class="setting-item">
+                    <label class="setting-label">${label}</label>
+                    <div class="color-picker-wrapper">
+                        <div class="color-preview" style="background: ${value}" 
+                             onclick="document.getElementById('${id}').click()"></div>
+                        <input type="color" id="${id}" value="${value}" 
+                               onchange="updateStyle('${property}', this.value)">
+                        <span class="color-value">${value}</span>
+                    </div>
+                </div>
+            `;
+        }
 
+        function renderSectionSettings() {
+            const section = templateState.sections[templateState.selectedSection];
+            if (!section) return renderGlobalSettings();
 
+            return `
+                <div class="settings-section">
+                    <h3>📝 Section: ${section.title}</h3>
+                    <div class="setting-item">
+                        <label class="setting-label">Section Title</label>
+                        <input type="text" class="setting-input" value="${section.title}" 
+                               oninput="updateSectionProperty('title', this.value)">
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">Visible</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" ${section.enabled ? 'checked' : ''} 
+                                   onchange="updateSectionProperty('enabled', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">Hide Title</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" ${section.hideTitle ? 'checked' : ''} 
+                                   onchange="updateSectionProperty('hideTitle', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">Show Divider</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" ${section.showDivider ? 'checked' : ''} 
+                                   onchange="updateSectionProperty('showDivider', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">Show Icon</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" ${section.showIcon ? 'checked' : ''} 
+                                   onchange="updateSectionProperty('showIcon', this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    ${section.showIcon ? `
+                        <div class="setting-item">
+                            <label class="setting-label">Select Icon</label>
+                            <div class="icon-picker-grid">
+                                ${availableIcons.map(icon => `
+                                    <div class="icon-option ${section.icon === icon ? 'active' : ''}" 
+                                         onclick="updateSectionProperty('icon', '${icon}')">
+                                        ${icon}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            Padding Top <span class="slider-value">${section.paddingTop || templateState.styles.sectionSpacing}px</span>
+                        </label>
+                        <input type="range" class="setting-slider" min="0" max="60" 
+                               value="${section.paddingTop || templateState.styles.sectionSpacing}" 
+                               oninput="updateSectionProperty('paddingTop', this.value)">
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            Padding Bottom <span class="slider-value">${section.paddingBottom || templateState.styles.sectionSpacing}px</span>
+                        </label>
+                        <input type="range" class="setting-slider" min="0" max="60" 
+                               value="${section.paddingBottom || templateState.styles.sectionSpacing}" 
+                               oninput="updateSectionProperty('paddingBottom', this.value)">
+                    </div>
+                    <div class="setting-item">
+                        <label class="setting-label">Background Color</label>
+                        <div class="color-picker-wrapper">
+                            <div class="color-preview" style="background: ${section.bgColor || 'transparent'}" 
+                                 onclick="document.getElementById('sectionBgColor').click()"></div>
+                            <input type="color" id="sectionBgColor" value="${section.bgColor || '#ffffff'}" 
+                                   onchange="updateSectionProperty('bgColor', this.value)">
+                            <button class="btn" onclick="updateSectionProperty('bgColor', 'transparent')" 
+                                    style="padding: 6px 12px; font-size: 12px;">Clear</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <button class="btn" onclick="duplicateSectionById('${templateState.selectedSection}')" style="width: 100%; margin-bottom: 10px;">
+                            📋 Duplicate Section
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteSection()" style="width: 100%;">
+                            🗑️ Delete Section
+                        </button>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <button class="btn" onclick="deselectSection()" style="width: 100%;">
+                        ← Back to Global Settings
+                    </button>
+                </div>
+            `;
+        }
 
+        function renderTemplateSelector() {
+            const selector = document.getElementById('templateSelector');
+            selector.innerHTML = '<option value="">Select Template...</option>' +
+                templates.map((t, i) => 
+                    `<option value="${i}" ${i === currentTemplateIndex ? 'selected' : ''}>${t.name}</option>`
+                ).join('');
+        }
 
+        // ========== DRAG & DROP HANDLERS ==========
+        function handleLibraryDragStart(e) {
+            const target = e.target.closest('.section-item');
+            if (!target) return;
+            
+            const sectionType = target.dataset.sectionType;
+            
+            e.dataTransfer.effectAllowed = 'copy';
+            e.dataTransfer.setData('text/plain', JSON.stringify({
+                type: 'library',
+                sectionType: sectionType
+            }));
+            
+            window._dragData = { type: 'library', sectionType: sectionType };
+            target.style.opacity = '0.5';
+            
+            createDragGhost(target);
+        }
 
+        function handleLibraryClick(e) {
+            const sectionType = e.currentTarget.dataset.sectionType;
+            
+            document.querySelectorAll('.section-item').forEach(item => item.classList.remove('selected'));
+            e.currentTarget.classList.add('selected');
+            
+            window._selectedSectionType = sectionType;
+        }
 
+        function createDragGhost(element) {
+            dragGhost = element.cloneNode(true);
+            dragGhost.classList.add('drag-ghost');
+            dragGhost.style.position = 'fixed';
+            dragGhost.style.pointerEvents = 'none';
+            dragGhost.style.zIndex = '1000';
+            dragGhost.style.opacity = '0.8';
+            document.body.appendChild(dragGhost);
+        }
 
+        function updateDragGhost(e) {
+            if (dragGhost) {
+                dragGhost.style.left = (e.clientX + 10) + 'px';
+                dragGhost.style.top = (e.clientY + 10) + 'px';
+            }
+        }
 
+        function removeDragGhost() {
+            if (dragGhost) {
+                dragGhost.remove();
+                dragGhost = null;
+            }
+        }
 
+        function attachCanvasEventListeners() {
+            const sections = document.querySelectorAll('.resume-section');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            const columns = document.querySelectorAll('.resume-column');
 
+            sections.forEach(section => {
+                section.addEventListener('click', handleSectionClick);
+                
+                const dragHandle = section.querySelector('.drag-handle');
+                if (dragHandle) {
+                    dragHandle.addEventListener('mousedown', (e) => {
+                        e.stopPropagation();
+                        section.setAttribute('draggable', 'true');
+                    });
+                }
+                
+                section.addEventListener('dragstart', handleSectionDragStart);
+                section.addEventListener('dragend', handleDragEnd);
+            });
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('dragleave', handleDragLeave);
+                zone.addEventListener('drop', handleDrop);
+            });
+
+            columns.forEach(column => {
+                column.addEventListener('click', handleColumnClick);
+            });
+
+            document.addEventListener('mousemove', updateDragGhost);
+        }
+
+        function handleColumnClick(e) {
+            if (window._selectedSectionType && !e.target.closest('.resume-section')) {
+                const column = e.currentTarget;
+                const targetColumn = column.dataset.column;
+                
+                if (targetColumn) {
+                    addSectionToColumn(window._selectedSectionType, targetColumn);
+                    saveToHistory();
+                    renderCanvas();
+                    renderSettings();
+                    
+                    window._selectedSectionType = null;
+                    document.querySelectorAll('.section-item').forEach(item => item.classList.remove('selected'));
+                    
+                    showNotification('Section added successfully', 'success');
+                }
+            }
+        }
+
+        function handleSectionClick(e) {
+            if (templateState.previewMode) return;
+            
+            // Don't select if clicking on control buttons
+            if (e.target.classList.contains('section-control-btn')) return;
+            
+            e.stopPropagation();
+            const sectionId = e.currentTarget.dataset.sectionId;
+            templateState.selectedSection = sectionId;
+            renderCanvas();
+            renderSettings();
+        }
+
+        function handleSectionDragStart(e) {
+            if (templateState.previewMode) return;
+            
+            const sectionId = e.currentTarget.dataset.sectionId;
+            const section = templateState.sections[sectionId];
+            
+            if (section && section.locked) {
+                e.preventDefault();
+                showNotification('Section is locked', 'error');
+                return;
+            }
+            
+            draggedSection = sectionId;
+            
+            for (const [columnName, sections] of Object.entries(templateState.columns)) {
+                if (sections.includes(sectionId)) {
+                    draggedFromColumn = columnName;
+                    break;
+                }
+            }
+            
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', JSON.stringify({
+                type: 'canvas',
+                sectionId: sectionId,
+                fromColumn: draggedFromColumn
+            }));
+            
+            window._dragData = {
+                type: 'canvas',
+                sectionId: sectionId,
+                fromColumn: draggedFromColumn
+            };
+            
+            e.currentTarget.classList.add('dragging');
+            createDragGhost(e.currentTarget);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.dataTransfer.dropEffect = 'move';
+            
+            const dropZone = e.currentTarget;
+            if (!dropZone.classList.contains('drag-over')) {
+                dropZone.classList.add('drag-over');
+            }
+            
+            // Show drop indicator at precise position
+            showDropIndicator(e, dropZone);
+            
+            return false;
+        }
+
+        function showDropIndicator(e, dropZone) {
+            const sections = Array.from(dropZone.querySelectorAll('.resume-section:not(.dragging)'));
+            
+            if (sections.length === 0) return;
+            
+            let insertBeforeSection = null;
+            
+            for (const section of sections) {
+                const rect = section.getBoundingClientRect();
+                const midpoint = rect.top + rect.height / 2;
+                
+                if (e.clientY < midpoint) {
+                    insertBeforeSection = section;
+                    break;
+                }
+            }
+            
+            // Remove existing indicators
+            document.querySelectorAll('.drop-indicator').forEach(ind => ind.remove());
+            
+            // Create new indicator
+            const indicator = document.createElement('div');
+            indicator.className = 'drop-indicator active';
+            
+            if (insertBeforeSection) {
+                insertBeforeSection.parentNode.insertBefore(indicator, insertBeforeSection);
+            } else if (sections.length > 0) {
+                sections[sections.length - 1].parentNode.appendChild(indicator);
+            }
+        }
+
+        function handleDragLeave(e) {
+            const dropZone = e.currentTarget;
+            const rect = dropZone.getBoundingClientRect();
+            
+            if (e.clientX < rect.left || e.clientX >= rect.right ||
+                e.clientY < rect.top || e.clientY >= rect.bottom) {
+                dropZone.classList.remove('drag-over');
+                document.querySelectorAll('.drop-indicator').forEach(ind => ind.remove());
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const dropZone = e.currentTarget;
+            dropZone.classList.remove('drag-over');
+            document.querySelectorAll('.drop-indicator').forEach(ind => ind.remove());
+            
+            const targetColumn = dropZone.dataset.column;
+            
+            try {
+                let data = null;
+                
+                try {
+                    const textData = e.dataTransfer.getData('text/plain');
+                    if (textData) data = JSON.parse(textData);
+                } catch (err) {}
+                
+                if (!data && window._dragData) {
+                    data = window._dragData;
+                }
+                
+                if (!data) {
+                    console.error('No drag data available');
+                    return false;
+                }
+                
+                if (data.type === 'library') {
+                    addSectionToColumn(data.sectionType, targetColumn);
+                    showNotification('Section added', 'success');
+                } else if (data.type === 'canvas') {
+                    moveSectionToColumn(data.sectionId, data.fromColumn, targetColumn);
+                    showNotification('Section moved', 'success');
+                }
+                
+                saveToHistory();
+                renderCanvas();
+                renderSettings();
+                
+                window._dragData = null;
+                
+            } catch (error) {
+                console.error('Drop error:', error);
+                showNotification('Failed to drop section', 'error');
+            }
+            
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            draggedSection = null;
+            draggedFromColumn = null;
+            document.querySelectorAll('.dragging').forEach(el => el.classList.remove('dragging'));
+            document.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+            document.querySelectorAll('.section-item').forEach(el => el.style.opacity = '1');
+            document.querySelectorAll('.drop-indicator').forEach(ind => ind.remove());
+            window._dragData = null;
+            removeDragGhost();
+        }
+
+        // ========== AUTO SCROLL DURING DRAG ==========
+        function setupAutoScroll() {
+            const canvasWrapper = document.getElementById('canvasWrapper');
+            let autoScrollInterval = null;
+            
+            canvasWrapper.addEventListener('dragover', (e) => {
+                const rect = canvasWrapper.getBoundingClientRect();
+                const scrollThreshold = 50;
+                const scrollSpeed = 10;
+                
+                if (autoScrollInterval) {
+                    clearInterval(autoScrollInterval);
+                    autoScrollInterval = null;
+                }
+                
+                if (e.clientY < rect.top + scrollThreshold) {
+                    autoScrollInterval = setInterval(() => {
+                        canvasWrapper.scrollTop -= scrollSpeed;
+                    }, 16);
+                } else if (e.clientY > rect.bottom - scrollThreshold) {
+                    autoScrollInterval = setInterval(() => {
+                        canvasWrapper.scrollTop += scrollSpeed;
+                    }, 16);
+                }
+            });
+            
+            canvasWrapper.addEventListener('dragleave', () => {
+                if (autoScrollInterval) {
+                    clearInterval(autoScrollInterval);
+                    autoScrollInterval = null;
+                }
+            });
+            
+            canvasWrapper.addEventListener('drop', () => {
+                if (autoScrollInterval) {
+                    clearInterval(autoScrollInterval);
+                    autoScrollInterval = null;
+                }
+            });
+        }
+
+        // ========== COLUMN RESIZING ==========
+        function handleResizerMouseDown(e) {
+            isResizingColumn = true;
+            resizeStartX = e.clientX;
+            resizeStartWidth = templateState.columnWidths.left;
+            
+            document.addEventListener('mousemove', handleResizerMouseMove);
+            document.addEventListener('mouseup', handleResizerMouseUp);
+            
+            e.preventDefault();
+        }
+
+        function handleResizerMouseMove(e) {
+            if (!isResizingColumn) return;
+            
+            const canvas = document.getElementById('resumeCanvas');
+            const canvasWidth = canvas.offsetWidth;
+            const deltaX = e.clientX - resizeStartX;
+            const deltaPercent = (deltaX / canvasWidth) * 100;
+            
+            let newLeftWidth = resizeStartWidth + deltaPercent;
+            newLeftWidth = Math.max(20, Math.min(60, newLeftWidth));
+            
+            templateState.columnWidths.left = newLeftWidth;
+            templateState.columnWidths.right = 100 - newLeftWidth;
+            
+            renderCanvas();
+            renderSettings();
+        }
+
+        function handleResizerMouseUp() {
+            if (isResizingColumn) {
+                isResizingColumn = false;
+                saveToHistory();
+                document.removeEventListener('mousemove', handleResizerMouseMove);
+                document.removeEventListener('mouseup', handleResizerMouseUp);
+            }
+        }
+
+        // ========== SECTION OPERATIONS ==========
+        function addSectionToColumn(sectionType, columnName) {
+            const sectionDef = availableSections.find(s => s.id === sectionType);
+            const sectionId = `section_${sectionType}_${sectionCounter++}`;
+            
+            templateState.sections[sectionId] = {
+                id: sectionId,
+                type: sectionType,
+                title: sectionDef.name,
+                enabled: true,
+                showDivider: true,
+                showIcon: false,
+                hideTitle: false,
+                collapsed: false,
+                locked: false,
+                icon: sectionDef.icon,
+                column: columnName,
+                paddingTop: templateState.styles.sectionSpacing,
+                paddingBottom: templateState.styles.sectionSpacing,
+                bgColor: 'transparent'
+            };
+            
+            if (templateState.layout === 'one-column') {
+                templateState.columns.right.push(sectionId);
+            } else {
+                templateState.columns[columnName].push(sectionId);
+            }
+            
+            templateState.selectedSection = sectionId;
+        }
+
+        function moveSectionToColumn(sectionId, fromColumn, toColumn) {
+            if (templateState.layout === 'one-column') {
+                const allSections = [...templateState.columns.left, ...templateState.columns.right];
+                if (templateState.columns.left.includes(sectionId)) {
+                    templateState.columns.left.splice(templateState.columns.left.indexOf(sectionId), 1);
+                } else {
+                    templateState.columns.right.splice(templateState.columns.right.indexOf(sectionId), 1);
+                }
+                templateState.columns.right.push(sectionId);
+            } else {
+                const index = templateState.columns[fromColumn].indexOf(sectionId);
+                if (index > -1) {
+                    templateState.columns[fromColumn].splice(index, 1);
+                }
+                templateState.columns[toColumn].push(sectionId);
+            }
+            
+            if (templateState.sections[sectionId]) {
+                templateState.sections[sectionId].column = toColumn;
+            }
+        }
+
+        function toggleSectionCollapse(sectionId) {
+            if (templateState.sections[sectionId]) {
+                templateState.sections[sectionId].collapsed = !templateState.sections[sectionId].collapsed;
+                saveToHistory();
+                renderCanvas();
+                renderSettings();
+            }
+        }
+
+        function toggleSectionLock(sectionId) {
+            if (templateState.sections[sectionId]) {
+                templateState.sections[sectionId].locked = !templateState.sections[sectionId].locked;
+                saveToHistory();
+                renderCanvas();
+                renderSettings();
+                showNotification(
+                    templateState.sections[sectionId].locked ? 'Section locked' : 'Section unlocked',
+                    'success'
+                );
+            }
+        }
+
+        function duplicateSection(sectionId) {
+            if (!sectionId) sectionId = templateState.selectedSection;
+            if (!sectionId) return;
+            
+            const original = templateState.sections[sectionId];
+            const duplicate = JSON.parse(JSON.stringify(original));
+            duplicate.id = `section_${original.type}_${sectionCounter++}`;
+            duplicate.title = duplicate.title + ' (Copy)';
+            
+            templateState.sections[duplicate.id] = duplicate;
+            
+            const column = original.column || 'right';
+            if (templateState.columns[column]) {
+                const index = templateState.columns[column].indexOf(sectionId);
+                templateState.columns[column].splice(index + 1, 0, duplicate.id);
+            }
+            
+            templateState.selectedSection = duplicate.id;
+            saveToHistory();
+            renderCanvas();
+            renderSettings();
+            showNotification('Section duplicated', 'success');
+        }
+
+        function duplicateSectionById(sectionId) {
+            duplicateSection(sectionId);
+        }
+
+        function deleteSection() {
+            if (!templateState.selectedSection) return;
+            
+            const sectionId = templateState.selectedSection;
+            
+            for (const columnName in templateState.columns) {
+                const index = templateState.columns[columnName].indexOf(sectionId);
+                if (index > -1) {
+                    templateState.columns[columnName].splice(index, 1);
+                }
+            }
+            
+            delete templateState.sections[sectionId];
+            templateState.selectedSection = null;
+            
+            saveToHistory();
+            renderCanvas();
+            renderSettings();
+            showNotification('Section deleted', 'success');
+        }
+
+        function deselectSection() {
+            templateState.selectedSection = null;
+            renderCanvas();
+            renderSettings();
+        }
+
+        // ========== UPDATE FUNCTIONS ==========
+        function changeLayout(layout) {
+            templateState.layout = layout;
+            saveToHistory();
+            renderCanvas();
+            renderSettings();
+            showNotification(`Layout changed to ${layout}`, 'success');
+        }
+
+        function updateColumnWidth(column, value) {
+            templateState.columnWidths[column] = parseInt(value);
+            templateState.columnWidths.right = 100 - parseInt(value);
+            renderCanvas();
+            renderSettings();
+        }
+
+        function updateStyle(property, value) {
+            if (property.includes('Size') || property.includes('Spacing') || property.includes('Weight') || property.includes('Margin') || property.includes('Gap')) {
+                templateState.styles[property] = parseInt(value);
+            } else if (property === 'lineHeight') {
+                templateState.styles[property] = parseFloat(value);
+            } else if (property === 'letterSpacing') {
+                templateState.styles[property] = parseFloat(value);
+            } else {
+                templateState.styles[property] = value;
+            }
+            renderCanvas();
+            renderSettings();
+        }
+
+        function updateSectionProperty(property, value) {
+            if (templateState.selectedSection && templateState.sections[templateState.selectedSection]) {
+                if (property === 'paddingTop' || property === 'paddingBottom') {
+                    templateState.sections[templateState.selectedSection][property] = parseInt(value);
+                } else {
+                    templateState.sections[templateState.selectedSection][property] = value;
+                }
+                renderCanvas();
+                renderSettings();
+            }
+        }
+
+        // ========== EVENT LISTENERS ==========
+        function attachEventListeners() {
+            document.getElementById('newTemplateBtn').addEventListener('click', createNewTemplate);
+            
+            document.getElementById('duplicateBtn').addEventListener('click', duplicateCurrentTemplate);
+            
+            document.getElementById('stylePickerBtn').addEventListener('click', openStylePicker);
+            
+            document.getElementById('previewBtn').addEventListener('click', () => {
+                templateState.previewMode = !templateState.previewMode;
+                document.getElementById('previewBtn').textContent = 
+                    templateState.previewMode ? '✏️ Edit Mode' : '👁️ Preview';
+                renderCanvas();
+                showNotification(templateState.previewMode ? 'Preview mode ON' : 'Edit mode ON', 'success');
+            });
+
+            document.getElementById('clearBtn').addEventListener('click', () => {
+                if (confirm('Are you sure you want to clear the canvas? This action cannot be undone.')) {
+                    templateState.columns = { left: [], right: [] };
+                    templateState.sections = {};
+                    templateState.selectedSection = null;
+                    saveToHistory();
+                    renderCanvas();
+                    renderSettings();
+                    showNotification('Canvas cleared', 'success');
+                }
+            });
+
+            document.getElementById('saveBtn').addEventListener('click', openSaveModal);
+            
+            document.getElementById('undoBtn').addEventListener('click', undo);
+            document.getElementById('redoBtn').addEventListener('click', redo);
+            
+            document.getElementById('templateSelector').addEventListener('change', (e) => {
+                const index = parseInt(e.target.value);
+                if (!isNaN(index)) {
+                    switchTemplate(index);
+                }
+            });
+
+            document.getElementById('resumeCanvas').addEventListener('click', (e) => {
+                if (e.target.id === 'resumeCanvas' || e.target.classList.contains('drop-zone')) {
+                    deselectSection();
+                }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey || e.metaKey) {
+                    if (e.key === 'z' && !e.shiftKey) {
+                        e.preventDefault();
+                        undo();
+                    } else if (e.key === 'z' && e.shiftKey || e.key === 'y') {
+                        e.preventDefault();
+                        redo();
+                    } else if (e.key === 's') {
+                        e.preventDefault();
+                        openSaveModal();
+                    }
+                } else if (e.key === 'Delete' && templateState.selectedSection) {
+                    e.preventDefault();
+                    deleteSection();
+                }
+            });
+        }
+
+        // ========== SAVE & EXPORT ==========
+        function openSaveModal() {
+            document.getElementById('templateName').value = templateState.name;
+            
+            const templateConfig = {
+                id: templateState.id,
+                name: templateState.name,
+                layout: templateState.layout,
+                columnWidths: templateState.columnWidths,
+                columns: templateState.columns,
+                sections: templateState.sections,
+                styles: templateState.styles,
+                metadata: {
+                    createdAt: new Date().toISOString(),
+                    version: '3.0',
+                    sectionCount: Object.keys(templateState.sections).length,
+                    features: [
+                        'Advanced Drag & Drop',
+                        'Premium Style Presets',
+                        'Section-Level Controls',
+                        'Undo/Redo Support',
+                        'Column Resizing',
+                        'Icon Support',
+                        'Advanced Typography'
+                    ]
+                }
+            };
+            
+            document.getElementById('jsonOutput').textContent = 
+                JSON.stringify(templateConfig, null, 2);
+            document.getElementById('saveModal').classList.add('active');
+        }
+
+        function closeSaveModal() {
+            document.getElementById('saveModal').classList.remove('active');
+        }
+
+        function copyJSON() {
+            const jsonText = document.getElementById('jsonOutput').textContent;
+            navigator.clipboard.writeText(jsonText).then(() => {
+                showNotification('JSON copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('Failed to copy', 'error');
+            });
+        }
+
+        function saveTemplateToStorage() {
+            const name = document.getElementById('templateName').value.trim();
+            if (!name) {
+                showNotification('Please enter a template name', 'error');
+                return;
+            }
+            
+            templateState.name = name;
+            
+            if (currentTemplateIndex >= 0) {
+                templates[currentTemplateIndex] = JSON.parse(JSON.stringify(templateState));
+            } else {
+                templates.push(JSON.parse(JSON.stringify(templateState)));
+                currentTemplateIndex = templates.length - 1;
+            }
+            
+            saveTemplatesToStorage();
+            renderTemplateSelector();
+            closeSaveModal();
+            
+            showNotification(`Template "${name}" saved successfully!`, 'success');
+        }
+
+        // ========== INITIALIZE APP ==========
+        function init() {
+            loadTemplatesFromStorage();
+            renderSectionLibrary();
+            saveToHistory();
+            renderCanvas();
+            renderSettings();
+            renderTemplateSelector();
+            attachEventListeners();
+            updateUndoRedoButtons();
+            
+            showNotification('🎉 Ultra Premium Template Builder Loaded!', 'success');
+        }
+
+        // Start the app
+        init();
+    </script>
 </body>
-
 </html>
+
+
