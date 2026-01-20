@@ -958,6 +958,201 @@
             font-weight: 700;
         }
 
+        /* ========== LAYOUT GRID ========== */
+        .layout-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .layout-card {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.25s;
+            background: white;
+        }
+
+        .layout-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+        }
+
+        .layout-card.active {
+            border-color: var(--primary-color);
+            background: var(--selected-bg);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        .layout-thumbnail {
+            width: 100%;
+            height: 120px;
+            background: var(--bg-gray);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 8px;
+        }
+
+        .layout-visual {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            gap: 4px;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .layout-visual.single-column {
+            flex-direction: column;
+            padding: 6px;
+            gap: 3px;
+        }
+
+        .layout-visual.single-column .layout-block {
+            width: 100%;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 2px;
+            opacity: 0.3;
+        }
+
+        .layout-visual.two-column-left .layout-left,
+        .layout-visual.two-column-right .layout-right {
+            width: 35%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+            opacity: 0.3;
+        }
+
+        .layout-visual.two-column-left .layout-right,
+        .layout-visual.two-column-right .layout-left {
+            flex: 1;
+            background: var(--bg-gray);
+            border-radius: 4px;
+        }
+
+        .layout-visual.header-body {
+            flex-direction: column;
+        }
+
+        .layout-visual.header-body .layout-header {
+            width: 100%;
+            height: 25%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+            opacity: 0.3;
+        }
+
+        .layout-visual.header-body .layout-body {
+            flex: 1;
+            display: flex;
+            gap: 4px;
+        }
+
+        .layout-visual.header-body .layout-body > div {
+            flex: 1;
+            background: var(--bg-gray);
+            border-radius: 4px;
+        }
+
+        .layout-visual.compact-ats {
+            flex-direction: column;
+            padding: 4px;
+            gap: 2px;
+        }
+
+        .layout-visual.compact-ats .layout-block {
+            width: 100%;
+            height: 6px;
+            background: var(--text-secondary);
+            border-radius: 1px;
+            opacity: 0.2;
+        }
+
+        .layout-visual.creative-sidebar .layout-sidebar {
+            width: 30%;
+            background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+        }
+
+        .layout-visual.creative-sidebar .layout-content {
+            flex: 1;
+            background: var(--bg-gray);
+            border-radius: 4px;
+        }
+
+        .layout-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
+        .layout-description {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* ========== SECTION LAYOUT GRID ========== */
+        .section-layout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .section-layout-card {
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.25s;
+            background: white;
+        }
+
+        .section-layout-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+        }
+
+        .section-layout-card.active {
+            border-color: var(--primary-color);
+            background: var(--selected-bg);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        .section-layout-preview {
+            width: 100%;
+            height: 90px;
+            background: var(--bg-gray);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            padding: 8px;
+            font-size: 9px;
+            line-height: 1.3;
+            color: var(--text-secondary);
+            overflow: hidden;
+        }
+
+        .section-layout-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
         /* ========== MODAL ========== */
         .modal {
             display: none;
@@ -1259,6 +1454,7 @@
                     </select>
                     <button class="btn" id="newTemplateBtn">➕ New</button>
                     <button class="btn" id="duplicateBtn">📋 Duplicate</button>
+                    <button class="btn" id="layoutPickerBtn">📐 Layouts</button>
                     <button class="btn" id="stylePickerBtn">🎨 Styles</button>
                     <button class="btn" id="previewBtn">👁️ Preview</button>
                 </div>
@@ -1314,6 +1510,28 @@
         </div>
     </div>
 
+    <!-- Layout Picker Modal -->
+    <div class="modal" id="layoutPickerModal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2>📐 Choose Resume Layout</h2>
+                <button class="modal-close" onclick="closeLayoutPicker()">×</button>
+            </div>
+            <div class="layout-grid" id="layoutGrid"></div>
+        </div>
+    </div>
+
+    <!-- Section Layout Style Modal -->
+    <div class="modal" id="sectionLayoutModal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <div class="modal-header">
+                <h2 id="sectionLayoutTitle">📝 Section Layout Styles</h2>
+                <button class="modal-close" onclick="closeSectionLayoutModal()">×</button>
+            </div>
+            <div class="section-layout-grid" id="sectionLayoutGrid"></div>
+        </div>
+    </div>
+
     <script>
         // ========== AVAILABLE SECTIONS ==========
         const availableSections = [
@@ -1333,6 +1551,466 @@
             { id: 'activities', name: 'Activities', icon: '🎯' },
             { id: 'custom', name: 'Custom Section', icon: '➕' }
         ];
+
+        // ========== LAYOUT CONFIGURATIONS ==========
+        const layoutConfigurations = [
+            {
+                id: 'single-column-classic',
+                name: 'Single Column – Classic',
+                description: 'All sections stacked vertically',
+                type: 'one-column',
+                columnWidths: { left: 100, right: 0 },
+                allowedColumns: ['left'],
+                defaultColumn: 'left'
+            },
+            {
+                id: 'two-column-left',
+                name: 'Two Column – Left Sidebar',
+                description: 'Profile & Skills on left, Experience on right',
+                type: 'two-column',
+                columnWidths: { left: 35, right: 65 },
+                allowedColumns: ['left', 'right'],
+                defaultColumn: 'right',
+                suggestedPlacement: {
+                    left: ['profile', 'skills', 'languages', 'certificates'],
+                    right: ['experience', 'education', 'projects', 'awards']
+                }
+            },
+            {
+                id: 'two-column-right',
+                name: 'Two Column – Right Sidebar',
+                description: 'Content on left, sidebar on right',
+                type: 'two-column',
+                columnWidths: { left: 65, right: 35 },
+                allowedColumns: ['left', 'right'],
+                defaultColumn: 'left',
+                suggestedPlacement: {
+                    left: ['experience', 'education', 'projects', 'awards'],
+                    right: ['profile', 'skills', 'languages', 'certificates']
+                }
+            },
+            {
+                id: 'header-two-column',
+                name: 'Header + Two Column Body',
+                description: 'Full-width header, two-column content',
+                type: 'header-body',
+                columnWidths: { header: 100, left: 50, right: 50 },
+                allowedColumns: ['header', 'left', 'right'],
+                defaultColumn: 'left',
+                suggestedPlacement: {
+                    header: ['profile'],
+                    left: ['experience', 'projects'],
+                    right: ['education', 'skills', 'languages']
+                }
+            },
+            {
+                id: 'compact-ats',
+                name: 'Compact ATS Layout',
+                description: 'Single column, tight spacing, no icons',
+                type: 'one-column',
+                columnWidths: { left: 100, right: 0 },
+                allowedColumns: ['left'],
+                defaultColumn: 'left',
+                atsOptimized: true
+            },
+            {
+                id: 'creative-sidebar',
+                name: 'Creative Sidebar Layout',
+                description: 'Colored left sidebar with icons',
+                type: 'two-column',
+                columnWidths: { left: 30, right: 70 },
+                allowedColumns: ['left', 'right'],
+                defaultColumn: 'right',
+                coloredSidebar: true,
+                suggestedPlacement: {
+                    left: ['profile', 'skills', 'languages'],
+                    right: ['experience', 'education', 'projects']
+                }
+            }
+        ];
+
+        // ========== SECTION LAYOUT STYLES ==========
+        const sectionLayoutStyles = {
+            profile: [
+                {
+                    id: 'centered',
+                    name: 'Centered',
+                    template: (data) => `
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">${data.name || 'Your Name'}</div>
+                            <div style="font-size: 16px; color: var(--resume-primary); margin-bottom: 12px;">${data.title || 'Your Title'}</div>
+                            <div style="font-size: 13px; color: var(--resume-muted);">${data.contact || 'email | phone | location'}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'inline',
+                    name: 'Inline',
+                    template: (data) => `
+                        <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;">
+                            <span style="font-size: 22px; font-weight: 700;">${data.name || 'Your Name'}</span>
+                            <span style="font-size: 16px; color: var(--resume-primary);">|</span>
+                            <span style="font-size: 16px; color: var(--resume-primary);">${data.title || 'Your Title'}</span>
+                        </div>
+                        <div style="font-size: 13px; color: var(--resume-muted); margin-top: 8px;">${data.contact || 'email | phone'}</div>
+                    `
+                },
+                {
+                    id: 'left-aligned',
+                    name: 'Left Aligned',
+                    template: (data) => `
+                        <div>
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">${data.name || 'Your Name'}</div>
+                            <div style="font-size: 16px; color: var(--resume-primary); margin-bottom: 10px;">${data.title || 'Your Title'}</div>
+                            <div style="font-size: 13px; color: var(--resume-muted); line-height: 1.6;">
+                                ${(data.contact || 'email\nphone\nlocation').split('\n').map(line => `<div>${line}</div>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'two-column',
+                    name: 'Two Column',
+                    template: (data) => `
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;">
+                            <div style="flex: 1;">
+                                <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">${data.name || 'Your Name'}</div>
+                                <div style="font-size: 16px; color: var(--resume-primary);">${data.title || 'Your Title'}</div>
+                            </div>
+                            <div style="text-align: right; font-size: 13px; color: var(--resume-muted);">
+                                ${(data.contact || 'email\nphone\nlocation').split('\n').map(line => `<div>${line}</div>`).join('')}
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'icon-based',
+                    name: 'Icon Based',
+                    template: (data) => `
+                        <div>
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">👤 ${data.name || 'Your Name'}</div>
+                            <div style="font-size: 16px; color: var(--resume-primary); margin-bottom: 10px;">💼 ${data.title || 'Your Title'}</div>
+                            <div style="font-size: 13px; color: var(--resume-muted);">
+                                <div>📧 ${data.email || 'email@example.com'}</div>
+                                <div>📞 ${data.phone || '+1 234 567 890'}</div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'underline',
+                    name: 'Underline Style',
+                    template: (data) => `
+                        <div>
+                            <div style="font-size: 26px; font-weight: 700; padding-bottom: 8px; border-bottom: 3px solid var(--resume-primary); margin-bottom: 10px;">${data.name || 'Your Name'}</div>
+                            <div style="font-size: 16px; color: var(--resume-primary); margin-bottom: 8px;">${data.title || 'Your Title'}</div>
+                            <div style="font-size: 13px; color: var(--resume-muted);">${data.contact || 'email | phone | location'}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'box-style',
+                    name: 'Box Style',
+                    template: (data) => `
+                        <div style="background: var(--resume-primary); color: white; padding: 16px; border-radius: 8px;">
+                            <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">${data.name || 'Your Name'}</div>
+                            <div style="font-size: 16px; opacity: 0.9; margin-bottom: 8px;">${data.title || 'Your Title'}</div>
+                            <div style="font-size: 13px; opacity: 0.8;">${data.contact || 'email | phone | location'}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'minimal',
+                    name: 'Minimal',
+                    template: (data) => `
+                        <div>
+                            <div style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px;">${data.name || 'YOUR NAME'}</div>
+                            <div style="font-size: 14px; color: var(--resume-muted); text-transform: uppercase; letter-spacing: 2px;">${data.title || 'Your Title'}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'split-box',
+                    name: 'Split Box',
+                    template: (data) => `
+                        <div style="display: flex; gap: 2px;">
+                            <div style="flex: 1; background: var(--resume-primary); color: white; padding: 16px;">
+                                <div style="font-size: 22px; font-weight: 700;">${data.name || 'Your Name'}</div>
+                                <div style="font-size: 15px; opacity: 0.9; margin-top: 6px;">${data.title || 'Your Title'}</div>
+                            </div>
+                            <div style="flex: 1; background: var(--left-bg); padding: 16px; display: flex; align-items: center;">
+                                <div style="font-size: 12px; color: var(--resume-muted);">${data.contact || 'email | phone | location'}</div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'side-accent',
+                    name: 'Side Accent',
+                    template: (data) => `
+                        <div style="display: flex; gap: 12px;">
+                            <div style="width: 4px; background: var(--resume-primary); border-radius: 2px;"></div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 24px; font-weight: 700; margin-bottom: 6px;">${data.name || 'Your Name'}</div>
+                                <div style="font-size: 16px; color: var(--resume-primary); margin-bottom: 8px;">${data.title || 'Your Title'}</div>
+                                <div style="font-size: 13px; color: var(--resume-muted);">${data.contact || 'email | phone | location'}</div>
+                            </div>
+                        </div>
+                    `
+                }
+            ],
+            skills: [
+                {
+                    id: 'bullet-list',
+                    name: 'Bullet List',
+                    template: (skills) => `
+                        <ul style="columns: 2; column-gap: 20px; list-style: disc; padding-left: 20px;">
+                            ${skills.map(skill => `<li style="margin-bottom: 6px;">${skill}</li>`).join('')}
+                        </ul>
+                    `
+                },
+                {
+                    id: 'pill-tags',
+                    name: 'Pill / Tag Style',
+                    template: (skills) => `
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            ${skills.map(skill => `<span style="background: var(--resume-primary); color: white; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;">${skill}</span>`).join('')}
+                        </div>
+                    `
+                },
+                {
+                    id: 'progress-bars',
+                    name: 'Progress Bars',
+                    template: (skills) => `
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            ${skills.map(skill => `
+                                <div>
+                                    <div style="font-size: 13px; margin-bottom: 4px;">${skill}</div>
+                                    <div style="background: var(--left-bg); height: 8px; border-radius: 4px; overflow: hidden;">
+                                        <div style="background: var(--resume-primary); height: 100%; width: ${Math.random() * 30 + 70}%; border-radius: 4px;"></div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `
+                },
+                {
+                    id: 'two-column-skills',
+                    name: 'Two Column',
+                    template: (skills) => `
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px;">
+                            ${skills.map(skill => `<div style="font-size: 13px;">• ${skill}</div>`).join('')}
+                        </div>
+                    `
+                },
+                {
+                    id: 'compact-inline',
+                    name: 'Compact Inline',
+                    template: (skills) => `
+                        <div style="font-size: 13px; line-height: 1.8;">
+                            ${skills.join(' • ')}
+                        </div>
+                    `
+                },
+                {
+                    id: 'boxed-grid',
+                    name: 'Boxed Grid',
+                    template: (skills) => `
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px;">
+                            ${skills.map(skill => `<div style="border: 1px solid var(--resume-primary); padding: 8px; border-radius: 6px; text-align: center; font-size: 12px;">${skill}</div>`).join('')}
+                        </div>
+                    `
+                }
+            ],
+            experience: [
+                {
+                    id: 'standard',
+                    name: 'Standard',
+                    template: (item) => `
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">${item.title}</div>
+                            <div style="font-size: 13px; color: var(--resume-primary); margin-bottom: 6px;">${item.company} • ${item.date}</div>
+                            <div style="font-size: 13px; line-height: 1.6; color: var(--resume-text);">${item.description}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'timeline',
+                    name: 'Timeline Style',
+                    template: (item) => `
+                        <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                            <div style="width: 6px; background: var(--resume-primary); border-radius: 3px; flex-shrink: 0;"></div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">${item.title}</div>
+                                <div style="font-size: 13px; color: var(--resume-primary); margin-bottom: 6px;">${item.company} • ${item.date}</div>
+                                <div style="font-size: 13px; line-height: 1.6;">${item.description}</div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'left-right',
+                    name: 'Left Title, Right Description',
+                    template: (item) => `
+                        <div style="display: flex; gap: 20px; margin-bottom: 16px;">
+                            <div style="width: 35%; flex-shrink: 0;">
+                                <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">${item.title}</div>
+                                <div style="font-size: 12px; color: var(--resume-muted);">${item.date}</div>
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 13px; color: var(--resume-primary); margin-bottom: 6px;">${item.company}</div>
+                                <div style="font-size: 13px; line-height: 1.6;">${item.description}</div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'card-based',
+                    name: 'Card Based',
+                    template: (item) => `
+                        <div style="background: var(--left-bg); padding: 14px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--resume-primary);">
+                            <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">${item.title}</div>
+                            <div style="font-size: 13px; color: var(--resume-primary); margin-bottom: 8px;">${item.company} • ${item.date}</div>
+                            <div style="font-size: 13px; line-height: 1.6;">${item.description}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'minimal-ats',
+                    name: 'Minimal ATS',
+                    template: (item) => `
+                        <div style="margin-bottom: 14px;">
+                            <div style="font-size: 14px; font-weight: 600;">${item.title} | ${item.company} | ${item.date}</div>
+                            <div style="font-size: 13px; line-height: 1.6; margin-top: 4px;">${item.description}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'bullet-points',
+                    name: 'Bullet Points',
+                    template: (item) => `
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">${item.title}</div>
+                            <div style="font-size: 13px; color: var(--resume-primary); margin-bottom: 8px;">${item.company} • ${item.date}</div>
+                            <ul style="list-style: disc; padding-left: 20px; font-size: 13px; line-height: 1.6;">
+                                ${item.description.split('.').filter(d => d.trim()).map(point => `<li>${point.trim()}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `
+                }
+            ],
+            education: [
+                {
+                    id: 'standard',
+                    name: 'Standard',
+                    template: (item) => `
+                        <div style="margin-bottom: 14px;">
+                            <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">${item.degree}</div>
+                            <div style="font-size: 13px; color: var(--resume-primary); margin-bottom: 4px;">${item.institution} • ${item.year}</div>
+                            <div style="font-size: 13px; color: var(--resume-muted);">${item.details || ''}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'inline',
+                    name: 'Inline',
+                    template: (item) => `
+                        <div style="margin-bottom: 10px; font-size: 13px;">
+                            <strong>${item.degree}</strong> - ${item.institution} (${item.year})
+                        </div>
+                    `
+                },
+                {
+                    id: 'two-column-edu',
+                    name: 'Two Column',
+                    template: (item) => `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 14px;">
+                            <div style="flex: 1;">
+                                <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">${item.degree}</div>
+                                <div style="font-size: 13px; color: var(--resume-primary);">${item.institution}</div>
+                            </div>
+                            <div style="font-size: 13px; color: var(--resume-muted); text-align: right;">${item.year}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'card-edu',
+                    name: 'Card Style',
+                    template: (item) => `
+                        <div style="background: var(--left-bg); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                            <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">${item.degree}</div>
+                            <div style="font-size: 13px; color: var(--resume-primary);">${item.institution} • ${item.year}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'minimal-edu',
+                    name: 'Minimal',
+                    template: (item) => `
+                        <div style="margin-bottom: 12px;">
+                            <div style="font-size: 14px; font-weight: 600;">${item.degree}</div>
+                            <div style="font-size: 13px; color: var(--resume-muted);">${item.institution}, ${item.year}</div>
+                        </div>
+                    `
+                }
+            ],
+            projects: [
+                {
+                    id: 'standard',
+                    name: 'Standard',
+                    template: (item) => `
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">${item.name}</div>
+                            <div style="font-size: 13px; color: var(--resume-primary); margin-bottom: 6px;">${item.tech || 'Technologies used'}</div>
+                            <div style="font-size: 13px; line-height: 1.6;">${item.description}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'card-project',
+                    name: 'Card Based',
+                    template: (item) => `
+                        <div style="background: var(--left-bg); padding: 14px; border-radius: 8px; margin-bottom: 12px; border-top: 3px solid var(--resume-primary);">
+                            <div style="font-size: 15px; font-weight: 600; margin-bottom: 6px;">${item.name}</div>
+                            <div style="font-size: 13px; line-height: 1.6;">${item.description}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'with-link',
+                    name: 'With Link',
+                    template: (item) => `
+                        <div style="margin-bottom: 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+                                <div style="font-size: 15px; font-weight: 600;">${item.name}</div>
+                                <div style="font-size: 12px; color: var(--resume-primary);">🔗 ${item.link || 'github.com'}</div>
+                            </div>
+                            <div style="font-size: 13px; line-height: 1.6;">${item.description}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'grid-project',
+                    name: 'Grid Style',
+                    template: (item) => `
+                        <div style="display: grid; grid-template-columns: 40% 1fr; gap: 12px; margin-bottom: 14px;">
+                            <div style="font-size: 14px; font-weight: 600;">${item.name}</div>
+                            <div style="font-size: 13px; line-height: 1.6;">${item.description}</div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'minimal-project',
+                    name: 'Minimal',
+                    template: (item) => `
+                        <div style="margin-bottom: 12px;">
+                            <span style="font-size: 14px; font-weight: 600;">${item.name}</span>
+                            <span style="font-size: 13px;"> - ${item.description}</span>
+                        </div>
+                    `
+                }
+            ]
+        };
 
         // ========== PREMIUM STYLE PRESETS ==========
         const stylePresets = [
@@ -1607,6 +2285,7 @@
             id: generateId(),
             name: 'Untitled Template',
             layout: 'two-column',
+            layoutId: 'two-column-left',
             columns: {
                 left: [],
                 right: []
@@ -1855,6 +2534,193 @@
             document.getElementById('stylePickerModal').classList.remove('active');
         }
 
+        // ========== LAYOUT PICKER ==========
+        function openLayoutPicker() {
+            const modal = document.getElementById('layoutPickerModal');
+            const grid = document.getElementById('layoutGrid');
+            
+            grid.innerHTML = layoutConfigurations.map(layout => {
+                const isActive = templateState.layoutId === layout.id;
+                return `
+                    <div class="layout-card ${isActive ? 'active' : ''}" onclick="applyLayout('${layout.id}')">
+                        <div class="layout-thumbnail">
+                            <div class="layout-visual ${layout.id}">
+                                ${getLayoutVisual(layout)}
+                            </div>
+                        </div>
+                        <div class="layout-name">${layout.name}</div>
+                        <div class="layout-description">${layout.description}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            modal.classList.add('active');
+        }
+
+        function getLayoutVisual(layout) {
+            switch(layout.id) {
+                case 'single-column-classic':
+                    return '<div class="layout-block"></div><div class="layout-block"></div><div class="layout-block"></div><div class="layout-block"></div>';
+                case 'two-column-left':
+                    return '<div class="layout-left"></div><div class="layout-right"></div>';
+                case 'two-column-right':
+                    return '<div class="layout-left"></div><div class="layout-right"></div>';
+                case 'header-two-column':
+                    return '<div class="layout-header"></div><div class="layout-body"><div></div><div></div></div>';
+                case 'compact-ats':
+                    return '<div class="layout-block"></div><div class="layout-block"></div><div class="layout-block"></div><div class="layout-block"></div><div class="layout-block"></div>';
+                case 'creative-sidebar':
+                    return '<div class="layout-sidebar"></div><div class="layout-content"></div>';
+                default:
+                    return '';
+            }
+        }
+
+        function closeLayoutPicker() {
+            document.getElementById('layoutPickerModal').classList.remove('active');
+        }
+
+        function applyLayout(layoutId) {
+            const layout = layoutConfigurations.find(l => l.id === layoutId);
+            if (!layout) return;
+
+            templateState.layoutId = layoutId;
+            templateState.layout = layout.type;
+            templateState.columnWidths = layout.columnWidths;
+
+            // Handle column structure based on layout type
+            if (layout.type === 'one-column') {
+                // Merge all sections into main/left column
+                const allSections = [
+                    ...(templateState.columns.left || []),
+                    ...(templateState.columns.right || []),
+                    ...(templateState.columns.header || [])
+                ];
+                templateState.columns = { left: allSections, right: [] };
+            } else if (layout.type === 'header-body') {
+                // Ensure header, left, right columns exist
+                if (!templateState.columns.header) {
+                    templateState.columns.header = [];
+                }
+                if (!templateState.columns.left) {
+                    templateState.columns.left = [];
+                }
+                if (!templateState.columns.right) {
+                    templateState.columns.right = [];
+                }
+            } else if (layout.type === 'two-column') {
+                // Ensure left and right exist
+                if (!templateState.columns.left) {
+                    templateState.columns.left = [];
+                }
+                if (!templateState.columns.right) {
+                    templateState.columns.right = [];
+                }
+                // Remove header if exists
+                if (templateState.columns.header) {
+                    templateState.columns.left = [...templateState.columns.header, ...templateState.columns.left];
+                    delete templateState.columns.header;
+                }
+            }
+
+            closeLayoutPicker();
+            saveToHistory();
+            renderCanvas();
+            showNotification(`Layout changed to ${layout.name}`, 'success');
+        }
+
+        // ========== SECTION LAYOUT MODAL ==========
+        function openSectionLayoutModal(sectionId) {
+            const section = templateState.sections[sectionId];
+            if (!section) return;
+
+            const sectionType = section.type;
+            const layoutStyles = sectionLayoutStyles[sectionType];
+            
+            if (!layoutStyles || layoutStyles.length === 0) {
+                showNotification('No layout styles available for this section', 'warning');
+                return;
+            }
+
+            const modal = document.getElementById('sectionLayoutModal');
+            const title = document.getElementById('sectionLayoutTitle');
+            const grid = document.getElementById('sectionLayoutGrid');
+            
+            title.textContent = `${section.title} - Choose Layout Style`;
+            
+            grid.innerHTML = layoutStyles.map(style => {
+                const isActive = section.layoutStyle === style.id;
+                return `
+                    <div class="section-layout-card ${isActive ? 'active' : ''}" 
+                         onclick="applySectionLayoutStyle('${sectionId}', '${style.id}')">
+                        <div class="section-layout-preview">
+                            ${getSectionLayoutPreview(sectionType, style.id)}
+                        </div>
+                        <div class="section-layout-name">${style.name}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            modal.classList.add('active');
+        }
+
+        function getSectionLayoutPreview(sectionType, styleId) {
+            const previewData = {
+                profile: {
+                    name: 'John Doe',
+                    title: 'Product Designer',
+                    contact: 'email | phone',
+                    email: 'john@example.com',
+                    phone: '+1 234 567'
+                },
+                skills: ['Figma', 'Adobe XD', 'Sketch', 'React'],
+                experience: {
+                    title: 'Product Designer',
+                    company: 'Tech Co',
+                    date: '2020-Present',
+                    description: 'Led design initiatives for platform...'
+                },
+                education: {
+                    degree: 'Bachelor of Design',
+                    institution: 'University',
+                    year: '2020',
+                    details: 'GPA: 3.9'
+                },
+                projects: {
+                    name: 'Project Name',
+                    tech: 'React, Node',
+                    description: 'Built a platform...',
+                    link: 'github.com'
+                }
+            };
+
+            const style = sectionLayoutStyles[sectionType]?.find(s => s.id === styleId);
+            if (!style) return 'Preview';
+
+            try {
+                return style.template(previewData[sectionType]);
+            } catch (e) {
+                return 'Preview';
+            }
+        }
+
+        function closeSectionLayoutModal() {
+            document.getElementById('sectionLayoutModal').classList.remove('active');
+        }
+
+        function applySectionLayoutStyle(sectionId, styleId) {
+            const section = templateState.sections[sectionId];
+            if (!section) return;
+
+            section.layoutStyle = styleId;
+            
+            closeSectionLayoutModal();
+            saveToHistory();
+            renderCanvas();
+            renderSettings();
+            showNotification('Section layout style applied', 'success');
+        }
+
         // ========== RENDER FUNCTIONS ==========
         function renderSectionLibrary() {
             const library = document.getElementById('sectionLibrary');
@@ -1880,8 +2746,22 @@
 
             if (templateState.layout === 'one-column') {
                 canvas.innerHTML = `
-                    <div class="resume-column" data-column="main">
-                        ${renderColumn('main')}
+                    <div class="resume-column" data-column="left">
+                        ${renderColumn('left')}
+                    </div>
+                `;
+            } else if (templateState.layout === 'header-body') {
+                canvas.innerHTML = `
+                    <div class="resume-column" data-column="header" style="width: 100%; margin-bottom: 20px;">
+                        ${renderColumn('header')}
+                    </div>
+                    <div style="display: flex; gap: ${templateState.styles.columnGap}px;">
+                        <div class="resume-column left-column" data-column="left" style="width: ${templateState.columnWidths.left}%">
+                            ${renderColumn('left')}
+                        </div>
+                        <div class="resume-column right-column" data-column="right" style="width: ${templateState.columnWidths.right}%">
+                            ${renderColumn('right')}
+                        </div>
                     </div>
                 `;
             } else {
@@ -1909,9 +2789,15 @@
         }
 
         function renderColumn(columnName) {
-            const column = templateState.layout === 'one-column' ? 
-                [...templateState.columns.left, ...templateState.columns.right] :
-                templateState.columns[columnName] || [];
+            let column;
+            if (templateState.layout === 'one-column') {
+                // For one-column, combine all sections into left
+                column = [...(templateState.columns.left || []), ...(templateState.columns.right || [])];
+            } else if (columnName === 'header' && templateState.layout === 'header-body') {
+                column = templateState.columns.header || [];
+            } else {
+                column = templateState.columns[columnName] || [];
+            }
 
             if (column.length === 0) {
                 return `<div class="drop-zone" data-column="${columnName}">
@@ -1962,8 +2848,116 @@
                     </div>
                     ${section.showDivider && !section.hideTitle ? '<div class="section-divider"></div>' : ''}
                     <div class="section-content">
-                        ${sampleContent[section.type] || '<p>Content goes here...</p>'}
+                        ${renderSectionContent(section)}
                     </div>
+                    ${!templateState.previewMode ? `
+                        <div class="section-footer">
+                            <button class="btn-change-layout" onclick="openSectionLayoutModal('${sectionId}')" title="Change Section Layout">
+                                🎨 Change Layout Style
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderSectionContent(section) {
+            // If section has a layoutStyle, use it
+            if (section.layoutStyle && sectionLayoutStyles[section.type]) {
+                const styleConfig = sectionLayoutStyles[section.type].find(s => s.id === section.layoutStyle);
+                if (styleConfig) {
+                    // Get appropriate data for the section type
+                    const data = getSectionData(section.type);
+                    try {
+                        return styleConfig.template(data);
+                    } catch (e) {
+                        console.error('Error rendering section layout:', e);
+                    }
+                }
+            }
+            
+            // Fallback to sample content
+            return sampleContent[section.type] || '<p>Content goes here...</p>';
+        }
+
+        function getSectionData(sectionType) {
+            // Return appropriate data structure for each section type
+            const dataMap = {
+                profile: {
+                    name: 'Alexandra Johnson',
+                    title: 'Senior Product Designer',
+                    contact: 'alexandra.johnson@email.com | +1 (555) 123-4567 | San Francisco, CA',
+                    email: 'alexandra.johnson@email.com',
+                    phone: '+1 (555) 123-4567'
+                },
+                skills: ['Figma', 'Adobe XD', 'Sketch', 'Prototyping', 'User Research', 'Design Systems', 'HTML/CSS', 'JavaScript'],
+                experience: {
+                    title: 'Senior Product Designer',
+                    company: 'Tech Innovators Inc.',
+                    date: '2021-Present',
+                    description: 'Led design initiatives for SaaS platform serving 100K+ users. Improved user engagement by 45% through data-driven design decisions. Collaborated with cross-functional teams to ship 20+ major features.'
+                },
+                education: {
+                    degree: 'Master of Design',
+                    institution: 'Stanford University',
+                    year: '2018-2020',
+                    details: 'GPA: 3.9/4.0 • Focus: UX/UI Design & Human-Computer Interaction'
+                },
+                projects: {
+                    name: 'SaaS Dashboard Redesign',
+                    tech: 'Figma, React, Node.js',
+                    description: 'Redesigned entire dashboard interface leading to 60% improvement in user task completion rate.',
+                    link: 'github.com/project'
+                }
+            };
+            
+            return dataMap[sectionType] || {};
+        }
+
+        function renderSection(sectionId) {
+            const section = templateState.sections[sectionId];
+            if (!section || !section.enabled) return '';
+
+            const isSelected = templateState.selectedSection === sectionId;
+            const isDragging = draggedSection === sectionId;
+            const previewClass = templateState.previewMode ? 'preview-mode' : '';
+            const collapsedClass = section.collapsed ? 'collapsed' : '';
+            const lockedClass = section.locked ? 'locked' : '';
+            const headerClass = section.type === 'profile' ? 'header-section' : '';
+
+            return `
+                <div class="resume-section ${isSelected ? 'selected' : ''} ${isDragging ? 'dragging' : ''} ${previewClass} ${collapsedClass} ${lockedClass} ${headerClass}" 
+                     data-section-id="${sectionId}"
+                     data-section-type="${section.type}"
+                     draggable="${!templateState.previewMode && !section.locked}"
+                     style="padding: ${section.paddingTop || templateState.styles.sectionSpacing}px ${templateState.styles.sectionSpacing}px ${section.paddingBottom || templateState.styles.sectionSpacing}px; background: ${section.bgColor || 'transparent'}">
+                    <div class="section-header">
+                        <div class="section-title-wrapper">
+                            ${section.showIcon ? `<span class="section-icon">${section.icon || '📄'}</span>` : ''}
+                            ${section.hideTitle ? '' : `<div class="section-title">${section.title}</div>`}
+                        </div>
+                        <div class="section-controls">
+                            <button class="section-control-btn drag-handle" title="Drag to move">⋮⋮</button>
+                            <button class="section-control-btn" onclick="toggleSectionCollapse('${sectionId}')" title="Collapse/Expand">
+                                ${section.collapsed ? '▼' : '▲'}
+                            </button>
+                            <button class="section-control-btn" onclick="toggleSectionLock('${sectionId}')" title="Lock/Unlock">
+                                ${section.locked ? '🔒' : '🔓'}
+                            </button>
+                            <button class="section-control-btn" onclick="duplicateSection('${sectionId}')" title="Duplicate">📋</button>
+                        </div>
+                    </div>
+                    ${section.showDivider && !section.hideTitle ? '<div class="section-divider"></div>' : ''}
+                    <div class="section-content">
+                        ${renderSectionContent(section)}
+                    </div>
+                    ${!templateState.previewMode ? `
+                        <div class="section-footer">
+                            <button class="btn-change-layout" onclick="openSectionLayoutModal('${sectionId}')" title="Change Section Layout">
+                                🎨 Change Layout Style
+                            </button>
+                        </div>
+                    ` : ''}
                 </div>
             `;
         }
@@ -2899,6 +3893,8 @@
             document.getElementById('newTemplateBtn').addEventListener('click', createNewTemplate);
             
             document.getElementById('duplicateBtn').addEventListener('click', duplicateCurrentTemplate);
+            
+            document.getElementById('layoutPickerBtn').addEventListener('click', openLayoutPicker);
             
             document.getElementById('stylePickerBtn').addEventListener('click', openStylePicker);
             
