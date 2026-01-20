@@ -316,14 +316,16 @@
         .drop-zone {
             min-height: 80px;
             border: 2px dashed transparent;
-            transition: all 0.3s;
+            transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            border-radius: 8px;
+            border-radius: 10px;
         }
 
         .drop-zone.drag-over {
-            border-color: var(--primary-color);
-            background: rgba(99, 102, 241, 0.05);
+            border-color: rgba(99, 102, 241, 0.4);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.04));
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.15) inset;
         }
 
         .drop-zone.drag-over::before {
@@ -337,24 +339,81 @@
             font-size: 16px;
             pointer-events: none;
             z-index: 10;
-            animation: pulse 1s infinite;
+            animation: pulseGlow 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            text-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% { 
+                opacity: 0.6; 
+                transform: translate(-50%, -50%) scale(1.05);
+            }
         }
 
         .drop-indicator {
             position: absolute;
             left: 0;
             right: 0;
-            height: 4px;
-            background: var(--primary-color);
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
             border-radius: 2px;
             pointer-events: none;
             z-index: 100;
             opacity: 0;
-            transition: opacity 0.2s;
-            box-shadow: 0 0 8px var(--primary-color);
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 12px var(--primary-color),
+                        0 0 24px rgba(99, 102, 241, 0.3);
+            animation: indicatorPulse 1s ease-in-out infinite;
         }
 
         .drop-indicator.active {
+            opacity: 1;
+        }
+
+        @keyframes indicatorPulse {
+            0%, 100% { 
+                box-shadow: 0 0 12px var(--primary-color),
+                            0 0 24px rgba(99, 102, 241, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 16px var(--primary-color),
+                            0 0 32px rgba(99, 102, 241, 0.5);
+            }
+        }
+
+        .spacing-guide {
+            position: absolute;
+            border: 1px dashed rgba(99, 102, 241, 0.4);
+            pointer-events: none;
+            z-index: 90;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .spacing-guide.active {
+            opacity: 1;
+        }
+
+        .spacing-value {
+            position: absolute;
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            font-family: monospace;
+            pointer-events: none;
+            z-index: 91;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .spacing-value.active {
             opacity: 1;
         }
 
@@ -363,30 +422,175 @@
             50% { opacity: 0.5; }
         }
 
+        /* ========== FLOATING TOOLBAR (CANVA STYLE) ========== */
+        .floating-toolbar {
+            position: fixed;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12),
+                        0 0 0 1px rgba(0, 0, 0, 0.05);
+            padding: 8px;
+            display: flex;
+            gap: 6px;
+            z-index: 500;
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+            transition: opacity 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+
+        .floating-toolbar.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .floating-toolbar::before {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: white;
+            transform: translateX(-50%) rotate(45deg);
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+            z-index: -1;
+        }
+
+        .floating-toolbar-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-primary);
+        }
+
+        .floating-toolbar-btn:hover {
+            background: var(--hover-bg);
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .floating-toolbar-btn:active {
+            transform: scale(0.95) translateY(0);
+        }
+
+        .floating-toolbar-btn.danger:hover {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .floating-toolbar-divider {
+            width: 1px;
+            height: 24px;
+            background: var(--border-color);
+            margin: 0 4px;
+        }
+
         .resume-section {
             padding: var(--section-spacing);
             position: relative;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                        background 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.2s ease;
             border: 2px solid transparent;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 8px;
+            will-change: transform;
+            backface-visibility: hidden;
+            transform: translateZ(0) scale(1);
         }
 
-        .resume-section:hover:not(.preview-mode) {
-            background: rgba(99, 102, 241, 0.03);
-            border-color: rgba(99, 102, 241, 0.2);
+        .resume-section:hover:not(.preview-mode):not(.dragging) {
+            background: rgba(99, 102, 241, 0.04);
+            border-color: rgba(99, 102, 241, 0.35);
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12),
+                        0 0 0 1px rgba(99, 102, 241, 0.08) inset;
+            transform: translateZ(0) scale(1.01) translateY(-2px);
         }
 
         .resume-section.selected {
             border-color: var(--primary-color);
             background: var(--selected-bg);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15),
+                        0 8px 24px rgba(99, 102, 241, 0.2);
+            transform: translateZ(0) scale(1.005);
         }
 
         .resume-section.dragging {
-            opacity: 0.5;
-            transform: scale(0.98);
+            opacity: 0.65;
+            transform: translateZ(0) scale(0.98) rotate(-1deg);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25),
+                        0 0 0 1px rgba(99, 102, 241, 0.3);
+            transition: none;
+            cursor: grabbing !important;
+        }
+
+        .resume-section.header-section {
+            position: relative;
+        }
+
+        .resume-section.header-section::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .resume-section.header-section:hover::before {
+            opacity: 1;
+        }
+
+        .resume-section.animating-drop {
+            animation: smoothDrop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes smoothDrop {
+            0% {
+                transform: translateY(-10px) scale(0.98);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .resume-section.neighbor-push {
+            animation: neighborDisplace 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes neighborDisplace {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(8px);
+            }
+            100% {
+                transform: translateY(0);
+            }
         }
 
         .resume-section.collapsed .section-content {
@@ -484,10 +688,16 @@
         .drag-ghost {
             position: fixed;
             pointer-events: none;
-            opacity: 0.8;
+            opacity: 0.85;
             z-index: 1000;
-            transform: rotate(-2deg);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            transform: rotate(-2deg) scale(0.95);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(99, 102, 241, 0.5);
+            border-radius: 10px;
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+            backface-visibility: hidden;
         }
 
         /* ========== RIGHT SIDEBAR - SETTINGS ========== */
@@ -1439,6 +1649,24 @@
         let resizeStartX = 0;
         let resizeStartWidth = 0;
 
+        // CANVA-LEVEL INTERACTION STATE
+        let floatingToolbar = null;
+        let isDragging = false;
+        let dragStartTime = 0;
+        let lastFrameTime = 0;
+        let animationFrameId = null;
+        let spacingGuides = [];
+        let hoveredSection = null;
+        let snapThreshold = 15; // pixels for magnetic snapping
+        let dragState = {
+            active: false,
+            initialY: 0,
+            currentY: 0,
+            velocity: 0,
+            targetSection: null,
+            insertPosition: null // 'before' or 'after'
+        };
+
         // ========== UTILITY FUNCTIONS ==========
         function generateId() {
             return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -1708,10 +1936,12 @@
             const previewClass = templateState.previewMode ? 'preview-mode' : '';
             const collapsedClass = section.collapsed ? 'collapsed' : '';
             const lockedClass = section.locked ? 'locked' : '';
+            const headerClass = section.type === 'profile' ? 'header-section' : '';
 
             return `
-                <div class="resume-section ${isSelected ? 'selected' : ''} ${isDragging ? 'dragging' : ''} ${previewClass} ${collapsedClass} ${lockedClass}" 
+                <div class="resume-section ${isSelected ? 'selected' : ''} ${isDragging ? 'dragging' : ''} ${previewClass} ${collapsedClass} ${lockedClass} ${headerClass}" 
                      data-section-id="${sectionId}"
+                     data-section-type="${section.type}"
                      draggable="${!templateState.previewMode && !section.locked}"
                      style="padding: ${section.paddingTop || templateState.styles.sectionSpacing}px ${templateState.styles.sectionSpacing}px ${section.paddingBottom || templateState.styles.sectionSpacing}px; background: ${section.bgColor || 'transparent'}">
                     <div class="section-header">
@@ -2089,6 +2319,8 @@
 
             sections.forEach(section => {
                 section.addEventListener('click', handleSectionClick);
+                section.addEventListener('mouseenter', handleSectionHover);
+                section.addEventListener('mouseleave', handleSectionLeave);
                 
                 const dragHandle = section.querySelector('.drag-handle');
                 if (dragHandle) {
@@ -2113,6 +2345,113 @@
             });
 
             document.addEventListener('mousemove', updateDragGhost);
+        }
+
+        // ========== CANVA-LEVEL HOVER EFFECTS ==========
+        function handleSectionHover(e) {
+            if (templateState.previewMode || isDragging) return;
+            
+            const section = e.currentTarget;
+            hoveredSection = section;
+            
+            // Use RAF for smooth animations
+            requestAnimationFrame(() => {
+                showFloatingToolbar(section);
+            });
+        }
+
+        function handleSectionLeave(e) {
+            if (templateState.previewMode) return;
+            
+            hoveredSection = null;
+            hideFloatingToolbar();
+        }
+
+        // ========== FLOATING TOOLBAR (CANVA STYLE) ==========
+        function showFloatingToolbar(section) {
+            if (!floatingToolbar) {
+                createFloatingToolbar();
+            }
+            
+            const rect = section.getBoundingClientRect();
+            const sectionId = section.dataset.sectionId;
+            const sectionData = templateState.sections[sectionId];
+            
+            if (!sectionData) return;
+            
+            // Position toolbar above section
+            const toolbarWidth = 200; // Approximate
+            const left = rect.left + (rect.width / 2) - (toolbarWidth / 2);
+            const top = rect.top - 50;
+            
+            floatingToolbar.style.left = `${left}px`;
+            floatingToolbar.style.top = `${top}px`;
+            floatingToolbar.dataset.sectionId = sectionId;
+            floatingToolbar.classList.add('active');
+        }
+
+        function hideFloatingToolbar() {
+            if (floatingToolbar && !hoveredSection) {
+                setTimeout(() => {
+                    if (!hoveredSection && floatingToolbar) {
+                        floatingToolbar.classList.remove('active');
+                    }
+                }, 100);
+            }
+        }
+
+        function createFloatingToolbar() {
+            floatingToolbar = document.createElement('div');
+            floatingToolbar.className = 'floating-toolbar';
+            floatingToolbar.innerHTML = `
+                <button class="floating-toolbar-btn" onclick="floatingToolbarAction('move')" title="Move">⋮⋮</button>
+                <button class="floating-toolbar-btn" onclick="floatingToolbarAction('duplicate')" title="Duplicate">📋</button>
+                <button class="floating-toolbar-btn" onclick="floatingToolbarAction('lock')" title="Lock">🔒</button>
+                <div class="floating-toolbar-divider"></div>
+                <button class="floating-toolbar-btn" onclick="floatingToolbarAction('style')" title="Style">🎨</button>
+                <button class="floating-toolbar-btn danger" onclick="floatingToolbarAction('delete')" title="Delete">🗑️</button>
+            `;
+            
+            floatingToolbar.addEventListener('mouseenter', () => {
+                hoveredSection = floatingToolbar;
+            });
+            
+            floatingToolbar.addEventListener('mouseleave', () => {
+                hoveredSection = null;
+                hideFloatingToolbar();
+            });
+            
+            document.body.appendChild(floatingToolbar);
+        }
+
+        function floatingToolbarAction(action) {
+            const sectionId = floatingToolbar?.dataset.sectionId;
+            if (!sectionId) return;
+            
+            switch(action) {
+                case 'move':
+                    // Activate drag mode
+                    const section = document.querySelector(`[data-section-id="${sectionId}"]`);
+                    if (section) section.setAttribute('draggable', 'true');
+                    break;
+                case 'duplicate':
+                    duplicateSection(sectionId);
+                    break;
+                case 'lock':
+                    toggleSectionLock(sectionId);
+                    break;
+                case 'style':
+                    templateState.selectedSection = sectionId;
+                    renderCanvas();
+                    renderSettings();
+                    break;
+                case 'delete':
+                    templateState.selectedSection = sectionId;
+                    deleteSection();
+                    break;
+            }
+            
+            hideFloatingToolbar();
         }
 
         function handleColumnClick(e) {
